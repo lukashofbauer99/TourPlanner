@@ -18,17 +18,12 @@ public class ViewModelFactoryManager {
 
     public void registerFactories() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException, ClassNotFoundException {
         File directoryPath = new File("src/main/java/ViewModels/Factory/ConcreteFactories");
-        FilenameFilter textFilefilter = new FilenameFilter(){
-            public boolean accept(File dir, String name) {
-                String lowercaseName = name.toLowerCase();
-                if (lowercaseName.endsWith(".java")) {
-                    return true;
-                } else {
-                    return false;
-                }
-            }
+        FilenameFilter textFilefilter = (dir, name) -> {
+            String lowercaseName = name.toLowerCase();
+                return lowercaseName.endsWith(".java");
         };
-        String filesList[] = directoryPath.list();
+        String[] filesList = directoryPath.list(textFilefilter);
+        assert filesList != null;
         for(String fileName : filesList) {
             Class cardClass = Class.forName("ViewModels.Factory.ConcreteFactories."+fileName.substring(0,fileName.length()-5));
             registeredFactories.add((IViewModelFactory) ((Class<?>) cardClass).getDeclaredConstructor().newInstance());
@@ -36,21 +31,17 @@ public class ViewModelFactoryManager {
 
     }
 
+    //TODO: Scan classes in Namespace instead of Files in directory
     public IViewModelFactory getFactory(String groupName) {
         File directoryPath = new File("src/main/java/ViewModels/Factory/ConcreteFactories");
-        FilenameFilter textFilefilter = new FilenameFilter(){
-            public boolean accept(File dir, String name) {
-                String lowercaseName = name.toLowerCase();
-                if (lowercaseName.endsWith(".java")&&lowercaseName.startsWith(groupName.toLowerCase())){
-                    return true;
-                } else {
-                    return false;
-                }
-            }
+        FilenameFilter textFilefilter = (dir, name) -> {
+            String lowercaseName = name.toLowerCase();
+                return lowercaseName.endsWith(".java")&&lowercaseName.startsWith(groupName.toLowerCase());
         };
-        String filesList[] = directoryPath.list();
+        String[] filesList = directoryPath.list(textFilefilter);
+        assert filesList != null;
         for(String fileName : filesList) {
-            Class factoryClass = null;
+            Class factoryClass;
             String ClassName = fileName.substring(0, fileName.length() - 5);
             try {
                 factoryClass = Class.forName("ViewModels.Factory.ConcreteFactories."+ ClassName);

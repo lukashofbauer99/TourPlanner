@@ -1,4 +1,160 @@
-<?import javafx.scene.layout.GridPane?>
-<GridPane fx:controller="Views.MainViewController"
-          xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10">
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<GridPane alignment="center" hgap="10" prefHeight="600" prefWidth="800" vgap="10" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Views.MainViewController">
+
+    <columnConstraints>
+        <ColumnConstraints />
+        <ColumnConstraints hgrow="ALWAYS" />
+        <ColumnConstraints hgrow="ALWAYS" />
+        <ColumnConstraints hgrow="ALWAYS" />
+        <ColumnConstraints hgrow="ALWAYS" />
+        <ColumnConstraints hgrow="ALWAYS" />
+      <ColumnConstraints />
+
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints vgrow="ALWAYS" />
+        <RowConstraints />
+        <RowConstraints />
+        <RowConstraints vgrow="ALWAYS" />
+        <RowConstraints vgrow="ALWAYS" />
+        <RowConstraints vgrow="ALWAYS" />
+        <RowConstraints vgrow="ALWAYS" />
+        <RowConstraints vgrow="ALWAYS" />
+        <RowConstraints vgrow="ALWAYS" />
+        <RowConstraints vgrow="ALWAYS" />
+        <RowConstraints vgrow="ALWAYS" />
+        <RowConstraints vgrow="ALWAYS" />
+        <RowConstraints vgrow="ALWAYS" />
+    </rowConstraints>
+
+    <!--region column0-->
+    <Text text="Tour-Planner" GridPane.columnIndex="0" GridPane.columnSpan="6" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="CENTER" />
+
+    <MenuBar GridPane.columnIndex="0" GridPane.columnSpan="7" GridPane.rowIndex="1">
+        <Menu mnemonicParsing="false" text="File">
+            <MenuItem mnemonicParsing="false" text="Save as PDF"/>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Edit">
+            <MenuItem mnemonicParsing="false" text="UNDO"/>
+            <MenuItem mnemonicParsing="false" text="REDO"/>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Options">
+            <MenuItem mnemonicParsing="false" text="Option1"/>
+            <MenuItem mnemonicParsing="false" text="Option2"/>
+            <MenuItem mnemonicParsing="false" text="Option3"/>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Help">
+            <MenuItem mnemonicParsing="false" text="About"/>
+        </Menu>
+    </MenuBar>
+
+    <HBox GridPane.columnIndex="0" GridPane.rowIndex="2">
+    <Label alignment="CENTER" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="2">Search Tour:</Label>
+    <TextField id="Searchbar">
+      <padding>
+         <Insets bottom="5.0" right="5.0" />
+      </padding>
+      <GridPane.margin>
+         <Insets left="10.0" right="10.0" />
+      </GridPane.margin>
+         <HBox.margin>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </HBox.margin></TextField>
+    </HBox>
+
+    <GridPane id="Tours-Overview-Gridpane" GridPane.columnIndex="0" GridPane.rowIndex="3" GridPane.rowSpan="10" GridPane.valignment="TOP">
+
+        <columnConstraints>
+            <ColumnConstraints hgrow="ALWAYS" />
+            <ColumnConstraints hgrow="ALWAYS" />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints />
+            <RowConstraints vgrow="ALWAYS" />
+        </rowConstraints>
+
+        <Button text="Tours" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.valignment="TOP" />
+       <HBox alignment="CENTER_RIGHT" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="0" GridPane.valignment="CENTER">
+        <Button text="+" />
+        <Button text="-" />
+        <Button text="[]" />
+       </HBox>
+      <GridPane.margin>
+         <Insets left="10.0" />
+      </GridPane.margin>
+    </GridPane>
+    <!--endregion -->
+
+    <!--region column1-->
+    <!--endregion -->
+
+    <!--region column2-->
+
+    <GridPane id="Tour-Route-Description-DataGrid" GridPane.columnIndex="1" GridPane.columnSpan="5" GridPane.rowIndex="2" GridPane.rowSpan="5" GridPane.valignment="TOP">
+
+    <columnConstraints>
+            <ColumnConstraints hgrow="ALWAYS" />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints />
+            <RowConstraints vgrow="ALWAYS" />
+        </rowConstraints>
+
+        <Label text="Title:" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.valignment="TOP" />
+        <TabPane GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.valignment="TOP">
+            <Tab>
+                <ImageView />
+            </Tab>
+            <Tab>
+                <TextArea>Description</TextArea>
+            </Tab>
+         <GridPane.margin>
+            <Insets />
+         </GridPane.margin>
+        </TabPane>
+      <GridPane.margin>
+         <Insets right="10.0" />
+      </GridPane.margin>
+    </GridPane>
+
+    <GridPane id="Tour-Log-DataGrid" GridPane.columnIndex="1" GridPane.columnSpan="5" GridPane.rowIndex="7" GridPane.rowSpan="5" GridPane.valignment="TOP">
+
+        <columnConstraints>
+            <ColumnConstraints hgrow="ALWAYS" />
+            <ColumnConstraints hgrow="ALWAYS" />
+            <ColumnConstraints hgrow="ALWAYS" />
+            <ColumnConstraints hgrow="ALWAYS" />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints vgrow="ALWAYS" />
+            <RowConstraints vgrow="ALWAYS" />
+         <RowConstraints />
+        </rowConstraints>
+
+        <Label text="Logs:" GridPane.columnIndex="0" GridPane.columnSpan="3" GridPane.rowIndex="0" GridPane.valignment="TOP" />
+        <HBox alignment="CENTER_RIGHT" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="0" GridPane.valignment="TOP">
+        <Button text="+" />
+        <Button text="-" />
+        <Button text="[]" />
+        </HBox>
+        <TableView GridPane.columnIndex="0" GridPane.columnSpan="4" GridPane.rowIndex="2" GridPane.valignment="TOP">
+         <GridPane.margin>
+            <Insets />
+         </GridPane.margin></TableView>
+      <GridPane.margin>
+         <Insets bottom="10.0" right="10.0" />
+      </GridPane.margin>
+    </GridPane>
+    <!--endregion -->
+
+    <!--region column6-->
+    <!--endregion -->
+
 </GridPane>
