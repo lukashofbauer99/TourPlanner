@@ -1,6 +1,7 @@
 package Views;
 
 import ViewModels.IViewModel;
+import ViewModels.MainViewModel;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import lombok.Getter;
@@ -20,5 +21,9 @@ public class SideViewController implements IViewController {
     @FXML //inits Testfield
     public TextField text;
 
+    public void init(IViewModel viewModel)
+    {
+        this.viewModel=viewModel;
+    }
 
 }

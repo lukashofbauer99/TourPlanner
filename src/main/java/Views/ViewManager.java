@@ -21,7 +21,7 @@ public class ViewManager {
         loader.setLocation(getClass().getResource("/"+ groupName+"View.fxml"));
         root = loader.load();
         IViewController controller = loader.getController();
-        controller.setViewModel(viewModelFactoryManager.getFactory(groupName).createViewModel());
+        controller.init(viewModelFactoryManager.getFactory(groupName).createViewModel());
         stage.setTitle(viewTitle);
         stage.setScene(new Scene(root));
         stage.show();

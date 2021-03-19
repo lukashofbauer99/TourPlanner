@@ -6,4 +6,5 @@ public interface IViewController {
 
     IViewModel getViewModel();
     void setViewModel(IViewModel viewModel);
+    void init(IViewModel viewModel);
 }

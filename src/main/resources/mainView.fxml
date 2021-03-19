@@ -57,7 +57,7 @@
 
     <HBox GridPane.columnIndex="0" GridPane.rowIndex="2">
     <Label alignment="CENTER" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="2">Search Tour:</Label>
-    <TextField id="Searchbar">
+    <TextField onKeyReleased="#onKeyReleased" fx:id="searchInput" promptText="Start Location">
       <padding>
          <Insets bottom="5.0" right="5.0" />
       </padding>
@@ -107,7 +107,10 @@
             <RowConstraints vgrow="ALWAYS" />
         </rowConstraints>
 
-        <Label text="Title:" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.valignment="TOP" />
+        <HBox GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.valignment="TOP">
+            <Label text="Title:"/>
+            <Label fx:id="searchOutput"/>
+        </HBox>
         <TabPane GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.valignment="TOP">
             <Tab>
                 <ImageView />
@@ -141,7 +144,7 @@
         <Label text="Logs:" GridPane.columnIndex="0" GridPane.columnSpan="3" GridPane.rowIndex="0" GridPane.valignment="TOP" />
         <HBox alignment="CENTER_RIGHT" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="0" GridPane.valignment="TOP">
         <Button text="+" />
-        <Button text="-" />
+        <Button text="-" onAction="#ClearSearchField" />
         <Button text="[]" />
         </HBox>
         <TableView GridPane.columnIndex="0" GridPane.columnSpan="4" GridPane.rowIndex="2" GridPane.valignment="TOP">
