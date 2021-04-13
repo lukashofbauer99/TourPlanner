@@ -1,10 +1,7 @@
 package Views;
 
-import ViewModels.IViewModel;
+import javafx.fxml.Initializable;
 
-public interface IViewController {
+public interface IViewController extends Initializable {
 
-    IViewModel getViewModel();
-    void setViewModel(IViewModel viewModel);
-    void init(IViewModel viewModel);
 }

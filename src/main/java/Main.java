@@ -8,7 +8,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        viewManager.createView("main",primaryStage,"Main Window");
+        ViewManager.createView("main",primaryStage,"Main Window");
     }
 
 

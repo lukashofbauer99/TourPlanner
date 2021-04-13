@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Views.TourLogsViewController">
+
+    <columnConstraints>
+        <ColumnConstraints hgrow="ALWAYS" />
+        <ColumnConstraints hgrow="ALWAYS" />
+        <ColumnConstraints hgrow="ALWAYS" />
+        <ColumnConstraints hgrow="ALWAYS" />
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints  />
+        <RowConstraints vgrow="ALWAYS" />
+        <RowConstraints />
+    </rowConstraints>
+
+    <Label text="Logs:" GridPane.columnIndex="0" GridPane.columnSpan="3" GridPane.rowIndex="0" GridPane.valignment="TOP" />
+    <HBox alignment="CENTER_RIGHT" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="0" GridPane.valignment="TOP">
+        <Button onAction="#addNewLog" text="+" />
+        <Button onAction="#removeLog" text="-" />
+        <Button text="[]" />
+    </HBox>
+    <TableView GridPane.columnIndex="0" GridPane.columnSpan="4" GridPane.rowIndex="1" GridPane.rowSpan="2" GridPane.valignment="TOP">
+        <GridPane.margin>
+            <Insets />
+        </GridPane.margin></TableView>
+    <GridPane.margin>
+        <Insets bottom="10.0" right="10.0" />
+    </GridPane.margin>
+</GridPane>

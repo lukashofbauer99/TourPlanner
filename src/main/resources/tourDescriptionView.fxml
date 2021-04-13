@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Views.TourDescriptionViewController">
+
+    <columnConstraints>
+        <ColumnConstraints hgrow="ALWAYS" />
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints />
+        <RowConstraints vgrow="ALWAYS" />
+    </rowConstraints>
+
+    <HBox GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.valignment="TOP">
+        <Label text="Name: " />
+        <Label fx:id="selectedTourNameField" />
+    </HBox>
+    <TabPane tabClosingPolicy="UNAVAILABLE" GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.valignment="TOP">
+        <Tab text="Route">
+            <ImageView fx:id="selectedTourRouteInfoField" preserveRatio="true" fitHeight="500"/>
+        </Tab>
+        <Tab text="Description">
+            <TextArea fx:id="selectedTourDescField" editable="false" />
+        </Tab>
+        <GridPane.margin>
+            <Insets />
+        </GridPane.margin>
+    </TabPane>
+    <GridPane.margin>
+        <Insets right="10.0" />
+    </GridPane.margin>
+</GridPane>

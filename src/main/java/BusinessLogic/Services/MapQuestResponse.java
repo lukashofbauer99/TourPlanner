@@ -1,4 +1,4 @@
-package Models.Services;
+package BusinessLogic.Services;
 
 public class MapQuestResponse {
 }
