@@ -1,20 +1,22 @@
 package DataAccess.Repositories.DAOs;
 
-import DataAccess.Repositories.Repositories.IRepository;
-import DataAccess.Repositories.Repositories.InMemoryTourRepo;
+import DataAccess.Repositories.Repositories.InMemory.InMemoryDatabase;
+import DataAccess.Repositories.Repositories.InMemory.Repos.InMemoryTourRepo;
+import DataAccess.Repositories.Repositories.Interfaces.ITourRepo;
 import Models.Tour;
-import javafx.collections.ObservableList;
 
 import java.util.List;
 
-public class TourDAO implements IDAO<Tour,Long> {
-    private IRepository<Tour,Long> repo;
+public class TourDAO implements ITourDAO {
+
+    private ITourRepo repo;
 
 
     public static TourDAO tourDAO;
 
     private TourDAO() {
-        repo = new InMemoryTourRepo();
+        //load from config ?
+        repo = new InMemoryTourRepo(InMemoryDatabase.getInstance());
     }
 
 
@@ -50,4 +52,12 @@ public class TourDAO implements IDAO<Tour,Long> {
     public void delete(Long id) {
         repo.delete(id);
     }
+
+    @Override
+    public void registerForNotification(Runnable method) {
+        repo.registerForNotification(method);
+    }
+
+
+
 }

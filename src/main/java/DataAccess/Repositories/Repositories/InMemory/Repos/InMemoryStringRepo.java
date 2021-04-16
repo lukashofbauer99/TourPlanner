@@ -1,4 +1,4 @@
-package DataAccess.Repositories.Repositories;
+package DataAccess.Repositories.Repositories.InMemory.Repos;
 
 
 import javafx.beans.property.SimpleStringProperty;

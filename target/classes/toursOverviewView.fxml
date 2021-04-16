@@ -18,7 +18,7 @@
     <HBox alignment="CENTER_RIGHT" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="0" GridPane.valignment="CENTER">
         <Button text="+" onAction="#addNewTour" />
         <Button text="-" onAction="#removeTour"/>
-        <Button text="[]" />
+        <Button text="[]" onAction="#editTour" />
     </HBox>
     <GridPane.margin>
         <Insets left="10.0" />

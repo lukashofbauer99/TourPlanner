@@ -1,18 +1,12 @@
 package Views;
 
-import DataAccess.Repositories.DAOs.TourDAO;
-import DataAccess.Repositories.Repositories.InMemoryStringRepo;
-import Models.Tour;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
+import javafx.beans.property.LongProperty;
+import javafx.beans.property.SimpleLongProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.GridPane;
 import lombok.extern.slf4j.Slf4j;
 
 import java.net.URL;
@@ -24,18 +18,12 @@ public class MainViewController implements IViewController {
 
 
 
-    InMemoryStringRepo inMemoryStringRepo= InMemoryStringRepo.getInstance();
-    TourDAO tourDAO = TourDAO.getInstance();
+    public LongProperty selectedTourId= new SimpleLongProperty();
 
-    public ObservableList<Tour> tours= FXCollections.observableArrayList();
-
-    public ObjectProperty<Tour> selectedTour= new SimpleObjectProperty<>();
+    public StringProperty searchString= new SimpleStringProperty("");
 
     @FXML
-    public TextField selectedTourName= new TextField();
-
-    @FXML
-    public Label searchOutput = new Label();
+    public TextField searchInput= new TextField("");
 
     @FXML
     private ToursOverviewViewController toursOverviewViewController;
@@ -50,35 +38,24 @@ public class MainViewController implements IViewController {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
-        selectedTourName.textProperty().bindBidirectional(inMemoryStringRepo.inputText);
-        searchOutput.textProperty().bindBidirectional(inMemoryStringRepo.outputText);
+        selectedTourId.bindBidirectional(toursOverviewViewController.selectedTourId);
+        selectedTourId.bindBidirectional(tourDescriptionViewController.selectedTourId);
+        selectedTourId.bindBidirectional(tourLogsViewController.selectedTourId);
+
+        searchInput.textProperty().bindBidirectional(searchString);
+
+        searchString.bindBidirectional(toursOverviewViewController.searchString);
+        searchString.bindBidirectional(tourLogsViewController.searchString);
+
 
         initLoadTours();
     }
 
     private void initLoadTours()
     {
-        selectedTour.bindBidirectional(toursOverviewViewController.selectedTour);
-        selectedTour.bindBidirectional(tourDescriptionViewController.selectedTour);
-        selectedTour.bindBidirectional(tourLogsViewController.selectedTour);
-
-        tours.addAll(tourDAO.getAll());
-
-        toursOverviewViewController.tours=tours;
-
-        toursOverviewViewController.initListView();
-
     }
 
     public void onKeyReleased(KeyEvent keyEvent) {
-        inMemoryStringRepo.outputText.setValue( "you searched for "+ inMemoryStringRepo.inputText.getValue());
-    }
-
-
-    public void addNewTour(ActionEvent actionEvent) {
-    }
-
-    public void removeTour(ActionEvent actionEvent) {
     }
 
 }

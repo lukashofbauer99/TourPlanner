@@ -22,12 +22,9 @@
     <HBox alignment="CENTER_RIGHT" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="0" GridPane.valignment="TOP">
         <Button onAction="#addNewLog" text="+" />
         <Button onAction="#removeLog" text="-" />
-        <Button text="[]" />
+        <Button onAction="#editLog" text="[]" />
     </HBox>
-    <TableView GridPane.columnIndex="0" GridPane.columnSpan="4" GridPane.rowIndex="1" GridPane.rowSpan="2" GridPane.valignment="TOP">
-        <GridPane.margin>
-            <Insets />
-        </GridPane.margin></TableView>
+    <ListView fx:id="logsListView" GridPane.columnIndex="0" GridPane.columnSpan="4" GridPane.rowIndex="1" GridPane.rowSpan="2" GridPane.valignment="TOP"/>
     <GridPane.margin>
         <Insets bottom="10.0" right="10.0" />
     </GridPane.margin>

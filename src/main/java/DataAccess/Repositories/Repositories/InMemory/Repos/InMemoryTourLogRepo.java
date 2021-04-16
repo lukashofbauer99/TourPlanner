@@ -1,0 +1,81 @@
+package DataAccess.Repositories.Repositories.InMemory.Repos;
+
+
+import DataAccess.Repositories.Repositories.InMemory.IInMemoryDatabase;
+import DataAccess.Repositories.Repositories.Interfaces.ITourLogRepo;
+import Models.TourLog;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class InMemoryTourLogRepo implements ITourLogRepo {
+
+    private List<Runnable> subscribers = new ArrayList<>();
+
+    IInMemoryDatabase inMemoryDatabase;
+
+    public InMemoryTourLogRepo(IInMemoryDatabase inMemoryDatabase) {
+        this.inMemoryDatabase= inMemoryDatabase;
+    }
+
+
+    @Override
+    public List<TourLog> getAll() {
+        return inMemoryDatabase.getTourLogs();
+    }
+
+    @Override
+    public Long create(TourLog entity) {
+        entity.setId(inMemoryDatabase.getCurrentTourLogID());
+        inMemoryDatabase.getTourLogs().add(entity);
+
+        inMemoryDatabase.setCurrentTourLogID(inMemoryDatabase.getCurrentTourLogID()+1);
+
+        inMemoryDatabase.triggerTourLogEvent();
+        return entity.getId();
+    }
+
+
+    @Override
+    public TourLog read(Long id) {
+        return inMemoryDatabase.getTourLogs().stream().filter(x->x.getId().equals(id)).findFirst().orElse(null);
+    }
+
+    @Override
+    public void update(TourLog entity) {
+        TourLog logToUpdate = inMemoryDatabase.getTourLogs().stream().filter(x->x.getId().equals(entity.getId())).findFirst().orElse(null);
+        if(logToUpdate!=null) {
+            logToUpdate.setRating(entity.getRating());
+            logToUpdate.setDate(entity.getDate());
+            logToUpdate.setAverageSpeed(entity.getAverageSpeed());
+            logToUpdate.setDifficulty(entity.getDifficulty());
+            logToUpdate.setDistance(entity.getDistance());
+            logToUpdate.setRating(entity.getRating());
+            logToUpdate.setRecommendedPeopleCount(entity.getRecommendedPeopleCount());
+            logToUpdate.setToiletOnThePath(entity.getToiletOnThePath());
+            logToUpdate.setTypeOfTransport(entity.getTypeOfTransport());
+            logToUpdate.setTotalTime(entity.getTotalTime());
+
+            inMemoryDatabase.triggerTourLogEvent();
+            inMemoryDatabase.triggerTourEvent();
+        }
+    }
+
+    @Override
+    public void delete(Long id) {
+        TourLog logToRemove = inMemoryDatabase.getTourLogs().stream().filter(x->x.getId().equals(id)).findFirst().orElse(null);
+        if(logToRemove!=null) {
+            inMemoryDatabase.getTourLogs().remove(logToRemove);
+            inMemoryDatabase.getTours().forEach(x->x.getLogs().remove(logToRemove));
+            inMemoryDatabase.triggerTourLogEvent();
+            inMemoryDatabase.triggerTourEvent();
+        }
+    }
+
+    @Override
+    public void registerForNotification(Runnable method) {
+        inMemoryDatabase.subscribeToursLogsChangedEvent(method);
+    }
+
+
+}

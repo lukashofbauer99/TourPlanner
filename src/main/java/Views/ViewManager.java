@@ -12,15 +12,22 @@ import java.io.IOException;
 public class ViewManager {
 
 
-    public static void createView(String groupName, Stage stage,String viewTitle) throws IOException {
-        Parent root;
+    public static IViewController createView(String groupName, Stage stage,String viewTitle) {
+        Parent root=null;
         FXMLLoader loader = new FXMLLoader();
 
         loader.setLocation(ViewManager.class.getResource("/"+ groupName+"View.fxml"));
-        root = loader.load();
+        try {
+            root = loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        IViewController controller = loader.getController();
         stage.setTitle(viewTitle);
         stage.setScene(new Scene(root));
         stage.show();
+        return controller;
     }
+
 
 }

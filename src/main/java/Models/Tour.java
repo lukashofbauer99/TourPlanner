@@ -1,6 +1,5 @@
 package Models;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,6 +16,13 @@ public class Tour {
 
     public Tour(Long id, String name, String tourDescription, String routeInformation, double tourDistance) {
         this.id = id;
+        this.name = name;
+        this.tourDescription = tourDescription;
+        this.routeInformation = routeInformation;
+        this.tourDistance = tourDistance;
+    }
+
+    public Tour(String name, String tourDescription, String routeInformation, double tourDistance) {
         this.name = name;
         this.tourDescription = tourDescription;
         this.routeInformation = routeInformation;

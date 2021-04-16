@@ -1,4 +1,4 @@
-package DataAccess.Repositories.Repositories;
+package DataAccess.Repositories.Repositories.Interfaces;
 
 import javafx.collections.ObservableList;
 
@@ -12,4 +12,6 @@ public interface IRepository<T,id> {
     T read(id id);
     void update(T entity);
     void delete(id id);
+
+    void registerForNotification(Runnable method);
 }

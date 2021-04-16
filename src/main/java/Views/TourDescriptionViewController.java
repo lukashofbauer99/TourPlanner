@@ -1,9 +1,9 @@
 package Views;
 
+import DataAccess.Repositories.DAOs.ITourDAO;
+import DataAccess.Repositories.DAOs.TourDAO;
 import Models.Tour;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
@@ -22,7 +22,11 @@ import java.util.ResourceBundle;
 @NoArgsConstructor
 public class TourDescriptionViewController implements IViewController {
 
-    public ObjectProperty<Tour> selectedTour = new SimpleObjectProperty<>();
+    ITourDAO tourDAO = TourDAO.getInstance();
+
+    private Tour selectedTour= null;
+    public LongProperty selectedTourId= new SimpleLongProperty();
+
 
     @FXML
     public Label selectedTourNameField = new Label();
@@ -37,45 +41,54 @@ public class TourDescriptionViewController implements IViewController {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
-        setupSelectedTourListeners();
-
         selectedTourNameField.textProperty().bindBidirectional(selectedTourName);
         selectedTourDescField.textProperty().bindBidirectional(selectedTourDesc);
+
+        setupSelectedTourListeners();
     }
 
     public void setupSelectedTourListeners()
     {
-        //Name
-        selectedTour.addListener((observableValue, old, newVal) ->
+        tourDAO.registerForNotification(()->
         {
-            if(selectedTour.get()!=null) {
-                selectedTourName.setValue(selectedTour.get().getName());
-            }
-        });
-
-        //Desc
-        selectedTour.addListener((observableValue, old, newVal) ->
-        {
-            if(selectedTour.get()!=null) {
-                selectedTourDesc.setValue(selectedTour.get().getTourDescription());
-            }
-        });
-
-        //RoutInfo
-        selectedTour.addListener((observableValue, old, newVal) ->
-        {
-            if(selectedTour.get()!=null) {
+            selectedTour=tourDAO.read(selectedTourId.longValue());
+            if(selectedTour!=null ) {
+                selectedTourName.setValue(selectedTour.getName());
+                selectedTourDesc.setValue(selectedTour.getTourDescription());
                 try {
-                    FileInputStream input = new FileInputStream(newVal.getRouteInformation());
+                    FileInputStream input = new FileInputStream(selectedTour.getRouteInformation());
                     Image image= new Image(input);
                     selectedTourRouteInfoField.setImage(image);
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
             }
-
+            else{
+                selectedTourName.setValue("");
+                selectedTourDesc.setValue("");
+                selectedTourRouteInfoField.setImage(null);
+            }
         });
 
+        selectedTourId.addListener((observableValue, old, newVal) ->
+        {
+            selectedTour=tourDAO.read(newVal.longValue());
+            if(selectedTour!=null ) {
+                selectedTourName.setValue(selectedTour.getName());
+                selectedTourDesc.setValue(selectedTour.getTourDescription());
+                try {
+                    FileInputStream input = new FileInputStream(selectedTour.getRouteInformation());
+                    Image image= new Image(input);
+                    selectedTourRouteInfoField.setImage(image);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+            else{
+                selectedTourName.setValue("");
+                selectedTourDesc.setValue("");
+                selectedTourRouteInfoField.setImage(null);
+                }
+        });
     }
 }
