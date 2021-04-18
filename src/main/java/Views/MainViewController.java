@@ -1,5 +1,8 @@
 package Views;
 
+import Views.TourLogs.TourLogsViewController;
+import Views.Tours.TourDescriptionViewController;
+import Views.Tours.ToursOverviewViewController;
 import javafx.beans.property.LongProperty;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -11,6 +14,8 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+
+
 
 
 @Slf4j

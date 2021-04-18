@@ -1,8 +1,10 @@
-package Views;
+package Views.Tours;
 
 import DataAccess.Repositories.DAOs.ITourDAO;
 import DataAccess.Repositories.DAOs.TourDAO;
 import Models.Tour;
+import Views.IViewController;
+import Views.ViewManager;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

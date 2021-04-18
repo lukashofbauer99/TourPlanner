@@ -5,7 +5,7 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane alignment="center" hgap="10" prefHeight="300" prefWidth="300" vgap="10" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Views.TourCreateViewController">
+<GridPane alignment="center" hgap="10" prefHeight="300" prefWidth="300" vgap="10" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Views.Tours.TourCreateViewController">
 
     <columnConstraints>
         <ColumnConstraints />
@@ -48,7 +48,7 @@
     <TextField fx:id="end" prefWidth="50.0" GridPane.columnIndex="3" GridPane.halignment="LEFT" GridPane.rowIndex="4" />
 
 
-    <ImageView GridPane.columnIndex="0" GridPane.columnSpan="4" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.rowSpan="3" GridPane.valignment="CENTER" />
+    <ImageView fx:id="preview" GridPane.columnIndex="0" GridPane.columnSpan="4" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.rowSpan="3" GridPane.valignment="CENTER"  preserveRatio="true" fitHeight="100"/>
 
 
 

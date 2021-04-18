@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Views.TourLogsViewController">
+<GridPane xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Views.TourLogs.TourLogsViewController">
 
     <columnConstraints>
         <ColumnConstraints hgrow="ALWAYS" />
@@ -21,6 +21,7 @@
     <Label text="Logs:" GridPane.columnIndex="0" GridPane.columnSpan="3" GridPane.rowIndex="0" GridPane.valignment="TOP" />
     <HBox alignment="CENTER_RIGHT" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="0" GridPane.valignment="TOP">
         <Button onAction="#addNewLog" text="+" />
+        <Button onAction="#showLog" text="~" />
         <Button onAction="#removeLog" text="-" />
         <Button onAction="#editLog" text="[]" />
     </HBox>

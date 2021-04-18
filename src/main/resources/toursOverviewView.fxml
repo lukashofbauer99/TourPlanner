@@ -3,7 +3,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Label?>
-<GridPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Views.ToursOverviewViewController">
+<GridPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Views.Tours.ToursOverviewViewController">
 
     <columnConstraints>
         <ColumnConstraints hgrow="ALWAYS" />

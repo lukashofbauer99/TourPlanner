@@ -1,8 +1,9 @@
-package Views;
+package Views.Tours;
 
 import DataAccess.Repositories.DAOs.ITourDAO;
 import DataAccess.Repositories.DAOs.TourDAO;
 import Models.Tour;
+import Views.IViewController;
 import javafx.beans.property.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

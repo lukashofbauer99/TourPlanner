@@ -3,7 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<GridPane alignment="center" hgap="10" prefHeight="300" prefWidth="300" vgap="10" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Views.TourLogEditViewController">
+<GridPane alignment="center" hgap="10" prefHeight="300" prefWidth="300" vgap="10" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Views.TourLogs.TourLogEditViewController">
 
     <columnConstraints>
         <ColumnConstraints />
@@ -13,6 +13,7 @@
     </columnConstraints>
 
     <rowConstraints>
+        <RowConstraints vgrow="ALWAYS" />
         <RowConstraints vgrow="ALWAYS" />
         <RowConstraints vgrow="ALWAYS" />
         <RowConstraints vgrow="ALWAYS" />
@@ -42,9 +43,23 @@
     <Label GridPane.columnIndex="0" GridPane.halignment="LEFT" GridPane.rowIndex="4">Rating</Label>
     <TextField fx:id="rating" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.halignment="LEFT" GridPane.rowIndex="4" />
 
+    <Label GridPane.columnIndex="0" GridPane.halignment="LEFT" GridPane.rowIndex="5">Average Speed</Label>
+    <TextField fx:id="averageSpeed" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.halignment="LEFT" GridPane.rowIndex="5" />
+
+    <Label GridPane.columnIndex="0" GridPane.halignment="LEFT" GridPane.rowIndex="6">Type of Transport</Label>
+    <TextField fx:id="typeOfTransport" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.halignment="LEFT" GridPane.rowIndex="6" />
+
+    <Label GridPane.columnIndex="0" GridPane.halignment="LEFT" GridPane.rowIndex="7">Difficulty</Label>
+    <TextField fx:id="difficulty" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.halignment="LEFT" GridPane.rowIndex="7" />
+
+    <Label GridPane.columnIndex="0" GridPane.halignment="LEFT" GridPane.rowIndex="8">Recommended People</Label>
+    <TextField fx:id="recommendedPeopleCount" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.halignment="LEFT" GridPane.rowIndex="8" />
+
+    <Label GridPane.columnIndex="0" GridPane.halignment="LEFT" GridPane.rowIndex="9">Toilet On the Path</Label>
+    <CheckBox fx:id="toiletOnThePath" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.halignment="LEFT" GridPane.rowIndex="9" />
 
 
-    <GridPane GridPane.columnIndex="0" GridPane.columnSpan="4" GridPane.halignment="CENTER" GridPane.rowIndex="8" GridPane.valignment="CENTER">
+    <GridPane GridPane.columnIndex="0" GridPane.columnSpan="4" GridPane.halignment="CENTER" GridPane.rowIndex="10" GridPane.valignment="CENTER">
         <columnConstraints>
             <ColumnConstraints hgrow="ALWAYS" />
             <ColumnConstraints hgrow="ALWAYS" />
@@ -55,7 +70,7 @@
         </rowConstraints>
 
         <Button onAction="#cancelCreation" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="CENTER">Cancel</Button>
-        <Button fx:id="createButton" onAction="#saveLog" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="CENTER">Create</Button>
+        <Button fx:id="createButton" onAction="#saveLog" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="CENTER">Save</Button>
 
     </GridPane>
 

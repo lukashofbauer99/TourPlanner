@@ -1,12 +1,13 @@
-package Views;
+package Views.TourLogs;
 
 import DataAccess.Repositories.DAOs.ITourDAO;
 import DataAccess.Repositories.DAOs.ITourLogDAO;
 import DataAccess.Repositories.DAOs.TourDAO;
 import DataAccess.Repositories.DAOs.TourLogDAO;
-import DataAccess.Repositories.Repositories.InMemory.Repos.InMemoryStringRepo;
 import Models.Tour;
 import Models.TourLog;
+import Views.IViewController;
+import Views.ViewManager;
 import javafx.beans.property.LongProperty;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -32,7 +33,7 @@ public class TourLogsViewController implements IViewController {
     ITourDAO tourDAO = TourDAO.getInstance();
     ITourLogDAO tourLogDAO = TourLogDAO.getInstance();
 
-    private Long selectedLogId;
+    private Long selectedLogId=0L;
 
     private Tour selectedTour;
     public LongProperty selectedTourId= new SimpleLongProperty();
@@ -42,6 +43,8 @@ public class TourLogsViewController implements IViewController {
     public TourLogCreateViewController logCreateViewController;
 
     public TourLogEditViewController tourLogEditViewController;
+
+    public TourLogDetailsViewController tourLogDetailsViewController;
 
     public ObservableList<TourLog> logs= FXCollections.observableArrayList();
 
@@ -126,10 +129,18 @@ public class TourLogsViewController implements IViewController {
     }
 
     public void editLog(ActionEvent actionEvent) {
-        if (selectedTourId.get()!=0&& selectedLogId!=0) {
+        if (selectedTourId.get()!=0&&selectedLogId!=null&& selectedLogId!=0) {
             tourLogEditViewController = (TourLogEditViewController) ViewManager.createView("editTourLog", new Stage(), "Edit Log");
             tourLogEditViewController.selectedTourLogId = selectedLogId;
             tourLogEditViewController.initSelectedTourLog();
+        }
+    }
+
+    public void showLog(ActionEvent actionEvent) {
+        if (selectedTourId.get() != 0 && selectedLogId != null && selectedLogId != 0) {
+            tourLogDetailsViewController = (TourLogDetailsViewController) ViewManager.createView("detailsTourLog", new Stage(), "Show Log");
+            tourLogDetailsViewController.selectedTourLogId = selectedLogId;
+            tourLogDetailsViewController.initSelectedTourLog();
         }
     }
 }

@@ -18,6 +18,19 @@ public class TourLog {
         this.rating = rating;
     }
 
+    public TourLog(Date date, String report, double distance, double totalTime, int rating, double averageSpeed, String typeOfTransport, int difficulty, int recommendedPeopleCount, boolean toiletOnThePath) {
+        this.date = date;
+        this.report = report;
+        this.distance = distance;
+        this.totalTime = totalTime;
+        this.rating = rating;
+        this.averageSpeed = averageSpeed;
+        this.typeOfTransport = typeOfTransport;
+        this.difficulty = difficulty;
+        this.recommendedPeopleCount = recommendedPeopleCount;
+        this.toiletOnThePath = toiletOnThePath;
+    }
+
     String report;
     //tour distance in km
     double distance;

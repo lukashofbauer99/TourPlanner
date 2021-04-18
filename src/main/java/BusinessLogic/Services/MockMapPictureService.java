@@ -1,8 +1,8 @@
 package BusinessLogic.Services;
 
-public class MapQuestResponse implements IMapPictureService {
+public class MockMapPictureService implements IMapPictureService {
     @Override
     public String getPathOfCreatedPicture(String start, String end) {
-        return null;
+        return "MapReqTourPics/Download.jpeg";
     }
 }
