@@ -58,14 +58,10 @@ public class TourLogsViewController implements IViewController {
         loadLogs();
 
         tourDAO.registerForNotification(()->
-        {
-            loadLogs();
-        });
+                loadLogs());
 
         selectedTourId.addListener(x->
-        {
-            loadLogs();
-        });
+                loadLogs());
 
         setListViewCellFormat();
         setSelectedLogListener();
@@ -74,27 +70,27 @@ public class TourLogsViewController implements IViewController {
 
     private void loadLogs()
     {
-        if (selectedTourId.get()!=0) {
+        if (selectedTourId!=null&&selectedTourId.get()!=0) {
             selectedTour = tourDAO.read(selectedTourId.get());
             logs.setAll(selectedTour.getLogs());
             logsListView.setItems(logs);
-            selectedLogId =null;
+            selectedLogId = null;
         }
+        else
+            logs.clear();
     }
 
     private void setListViewCellFormat()
     {
-        logsListView.setCellFactory(param -> new ListCell<TourLog>()
-        {
+        logsListView.setCellFactory(param -> new ListCell<>() {
             @Override
-            protected void updateItem(TourLog item,boolean empty)
-            {
-                super.updateItem(item,empty);
+            protected void updateItem(TourLog item, boolean empty) {
+                super.updateItem(item, empty);
 
-                if(empty|| item==null||item.getId()==null)
+                if (empty || item == null || item.getId() == null)
                     setText(null);
-                else{
-                    setText(item.getDate()+" | "+ item.getReport()+" | "+ item.getDistance());
+                else {
+                    setText(item.getDate() + " | " + item.getReport() + " | " + item.getDistance());
                 }
             }
         });
