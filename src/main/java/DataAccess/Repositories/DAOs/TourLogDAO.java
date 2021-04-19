@@ -5,11 +5,18 @@ import DataAccess.Repositories.Repositories.InMemory.Repos.InMemoryTourLogRepo;
 import DataAccess.Repositories.Repositories.InMemory.Repos.InMemoryTourRepo;
 import DataAccess.Repositories.Repositories.Interfaces.ITourLogRepo;
 import Models.TourLog;
+import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class TourLogDAO implements ITourLogDAO {
+
+    private final Logger log= LogManager.getLogger("standardLogger");
 
     private List<Runnable> subscribers = new ArrayList<>();
     private ITourLogRepo repo;
@@ -18,6 +25,7 @@ public class TourLogDAO implements ITourLogDAO {
     public static TourLogDAO tourDAO;
 
     private TourLogDAO() {
+        log.info("using in memoryRepo");
         repo = new InMemoryTourLogRepo(InMemoryDatabase.getInstance());
     }
 

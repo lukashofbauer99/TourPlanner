@@ -26,7 +26,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 
-@Slf4j
 @NoArgsConstructor
 public class TourLogsViewController implements IViewController {
 

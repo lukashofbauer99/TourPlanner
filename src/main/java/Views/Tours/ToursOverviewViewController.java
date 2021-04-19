@@ -21,7 +21,6 @@ import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 
-@Slf4j
 @NoArgsConstructor
 public class ToursOverviewViewController implements IViewController {
 

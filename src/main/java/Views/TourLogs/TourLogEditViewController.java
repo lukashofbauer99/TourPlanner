@@ -19,7 +19,6 @@ import static java.lang.Double.parseDouble;
 import static java.lang.Integer.parseInt;
 
 
-@Slf4j
 @NoArgsConstructor
 public class TourLogEditViewController implements IViewController {
 

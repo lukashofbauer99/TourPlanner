@@ -10,7 +10,6 @@ import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
-import lombok.extern.slf4j.Slf4j;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -18,7 +17,6 @@ import java.util.ResourceBundle;
 
 
 
-@Slf4j
 public class MainViewController implements IViewController {
 
 

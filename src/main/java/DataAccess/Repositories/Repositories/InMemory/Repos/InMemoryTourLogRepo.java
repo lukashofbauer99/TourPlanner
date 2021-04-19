@@ -4,11 +4,17 @@ package DataAccess.Repositories.Repositories.InMemory.Repos;
 import DataAccess.Repositories.Repositories.InMemory.IInMemoryDatabase;
 import DataAccess.Repositories.Repositories.Interfaces.ITourLogRepo;
 import Models.TourLog;
+import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class InMemoryTourLogRepo implements ITourLogRepo {
+
+    private final Logger log= LogManager.getLogger("standardLogger");
 
     private List<Runnable> subscribers = new ArrayList<>();
 
@@ -21,6 +27,7 @@ public class InMemoryTourLogRepo implements ITourLogRepo {
 
     @Override
     public List<TourLog> getAll() {
+        log.info("get All TourLogs");
         return inMemoryDatabase.getTourLogs();
     }
 
@@ -32,12 +39,16 @@ public class InMemoryTourLogRepo implements ITourLogRepo {
         inMemoryDatabase.setCurrentTourLogID(inMemoryDatabase.getCurrentTourLogID()+1);
 
         inMemoryDatabase.triggerTourLogEvent();
+
+        log.info("create TourLog");
+
         return entity.getId();
     }
 
 
     @Override
     public TourLog read(Long id) {
+        log.info("read TourLog");
         return inMemoryDatabase.getTourLogs().stream().filter(x->x.getId().equals(id)).findFirst().orElse(null);
     }
 
@@ -58,7 +69,10 @@ public class InMemoryTourLogRepo implements ITourLogRepo {
 
             inMemoryDatabase.triggerTourLogEvent();
             inMemoryDatabase.triggerTourEvent();
+            log.info("update TourLog");
         }
+        else
+            log.error("TourLog null");
     }
 
     @Override
@@ -69,11 +83,15 @@ public class InMemoryTourLogRepo implements ITourLogRepo {
             inMemoryDatabase.getTours().forEach(x->x.getLogs().remove(logToRemove));
             inMemoryDatabase.triggerTourLogEvent();
             inMemoryDatabase.triggerTourEvent();
+            log.info("delete TourLog");
         }
+        else
+            log.error("TourLog null");
     }
 
     @Override
     public void registerForNotification(Runnable method) {
+        log.info("registerForNotification");
         inMemoryDatabase.subscribeToursLogsChangedEvent(method);
     }
 

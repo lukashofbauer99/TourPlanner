@@ -23,7 +23,6 @@ import java.util.ResourceBundle;
 import static java.lang.Double.parseDouble;
 
 
-@Slf4j
 @NoArgsConstructor
 public class TourCreateViewController implements IViewController {
 

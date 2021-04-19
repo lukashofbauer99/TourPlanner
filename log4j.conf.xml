@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- based on: https://logging.apache.org/log4j/2.x/manual/configuration.html -->
+<Configuration status="debug" strict="true" name="XMLConfigTest"
+               packages="org.apache.logging.log4j.test">
+    <Properties>
+        <Property name="filename">log4j.log</Property>
+    </Properties>
+
+    <Appenders>
+        <!--
+       <Appender type="Console" name="STDOUT">
+          <Layout type="PatternLayout" pattern="%d{HH:mm:ss.SSS} [%t] %-5level %m MDC%X %marker %n"/>
+        </Appender>
+        -->
+        <Appender type="File" name="File" fileName="${filename}">
+            <Layout type="PatternLayout">
+                <Pattern>%d %p %C{1.} [%t] %m%n</Pattern>
+            </Layout>
+        </Appender>
+    </Appenders>
+
+    <Loggers>
+        <Logger name="standardLogger" level="all" additivity="true">
+            <AppenderRef ref="File"/>
+        </Logger>
+
+        <Root level="trace">
+            <AppenderRef ref="STDOUT"/>
+        </Root>
+    </Loggers>
+
+</Configuration>

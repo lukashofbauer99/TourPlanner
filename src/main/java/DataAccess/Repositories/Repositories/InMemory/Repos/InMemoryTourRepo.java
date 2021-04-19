@@ -5,6 +5,10 @@ import DataAccess.Repositories.Repositories.InMemory.IInMemoryDatabase;
 import DataAccess.Repositories.Repositories.InMemory.InMemoryDatabase;
 import DataAccess.Repositories.Repositories.Interfaces.ITourRepo;
 import Models.Tour;
+import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +16,8 @@ import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 public class InMemoryTourRepo implements ITourRepo {
+
+    private final Logger log= LogManager.getLogger("standardLogger");
 
     private List<Runnable> subscribers = new ArrayList<>();
 
@@ -27,6 +33,7 @@ public class InMemoryTourRepo implements ITourRepo {
 
     @Override
     public List<Tour> getAll() {
+        log.info("get All Tours");
         return inMemoryDatabase.getTours();
     }
 
@@ -39,12 +46,15 @@ public class InMemoryTourRepo implements ITourRepo {
 
         inMemoryDatabase.triggerTourEvent();
 
+        log.info("create Tour");
+
         return entity.getId();
     }
 
 
     @Override
     public Tour read(Long id) {
+        log.info("read Tour");
         return inMemoryDatabase.getTours().stream().filter(x->x.getId().equals(id)).findFirst().orElse(null);
     }
 
@@ -78,7 +88,11 @@ public class InMemoryTourRepo implements ITourRepo {
 
             }
             inMemoryDatabase.triggerTourEvent();
+            log.info("update Tour");
+
         }
+        else
+            log.error("TourLog null");
     }
 
     @Override
@@ -88,11 +102,17 @@ public class InMemoryTourRepo implements ITourRepo {
             inMemoryDatabase.getTourLogs().removeAll(tourToRemove.getLogs());
             inMemoryDatabase.getTours().remove(tourToRemove);
             inMemoryDatabase.triggerTourEvent();
+            log.info("delete Tour");
+
         }
+        else
+            log.error("TourLog null");
     }
 
     @Override
     public void registerForNotification(Runnable method) {
+        log.info("registerForNotification");
+
         inMemoryDatabase.subscribeToursChangedEvent(method);
     }
 

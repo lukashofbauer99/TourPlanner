@@ -27,9 +27,6 @@ public class InMemoryDatabase implements IInMemoryDatabase {
     Long currentTourLogID= 1L;
     List<TourLog> tourLogs = new ArrayList<>();
 
-    Long currentTour_Log_RelID= 1L;
-    List<Tour_Logs_Rel> tour_logs_rels = new ArrayList<>();
-
     public static InMemoryDatabase getInstance()
     {
         if(instance==null)
