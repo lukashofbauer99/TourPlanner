@@ -1,4 +1,4 @@
-package BusinessLogic.Services;
+package BusinessLogic.Services.MapService;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
