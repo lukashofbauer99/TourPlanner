@@ -109,8 +109,9 @@ public class ToursOverviewViewController implements IViewController {
     }
 
     public void removeTour(ActionEvent actionEvent) {
-        tourDAO.delete(selectedTourId.get());
+        long id = selectedTourId.get();
         selectedTourId.setValue(0);
+        tourDAO.delete(id);
     }
 
     public void editTour(ActionEvent actionEvent) {

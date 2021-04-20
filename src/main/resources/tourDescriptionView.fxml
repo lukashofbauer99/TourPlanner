@@ -21,7 +21,11 @@
     </HBox>
     <TabPane tabClosingPolicy="UNAVAILABLE" GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.valignment="TOP">
         <Tab text="Route">
-            <ImageView fx:id="selectedTourRouteInfoField" preserveRatio="true" fitHeight="500"/>
+            <Pane fx:id="container" prefWidth="100" prefHeight="100">
+                <ImageView fx:id="selectedTourRouteInfoField" cache="true" cacheHint="SPEED" depthTest="ENABLE" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true"
+                           fitWidth="${container.width}" fitHeight="${container.height}"
+                           smooth="false" managed="false"/>
+            </Pane>
         </Tab>
         <Tab text="Description">
             <TextArea fx:id="selectedTourDescField" editable="false" />

@@ -3,7 +3,6 @@ package DataAccess.Repositories.Repositories.InMemory;
 import Models.Tour;
 import Models.TourLog;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public interface IInMemoryDatabase {

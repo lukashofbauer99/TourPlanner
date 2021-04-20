@@ -1,15 +1,12 @@
 package Views.Tours;
 
-import BusinessLogic.Services.IMapPictureService;
-import BusinessLogic.Services.MockMapPictureService;
+import BusinessLogic.Services.MapService.IMapPictureService;
+import BusinessLogic.Services.MapService.MapPictureServiceProvider;
+import BusinessLogic.Services.MapService.MapQuestPictureService;
 import DataAccess.Repositories.DAOs.ITourDAO;
-import DataAccess.Repositories.DAOs.ITourLogDAO;
 import DataAccess.Repositories.DAOs.TourDAO;
-import DataAccess.Repositories.DAOs.TourLogDAO;
 import Models.Tour;
 import Views.IViewController;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
@@ -17,7 +14,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import lombok.NoArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -30,7 +26,7 @@ import static java.lang.Double.parseDouble;
 @NoArgsConstructor
 public class TourEditViewController implements IViewController {
 
-    IMapPictureService mapPictureService = new MockMapPictureService();
+    MapPictureServiceProvider mapPictureServiceProvider = MapPictureServiceProvider.getInstance();
 
     ITourDAO tourDAO = TourDAO.getInstance();
 
@@ -66,14 +62,15 @@ public class TourEditViewController implements IViewController {
             }
         });
 
-        start.textProperty().addListener((observable, oldValue, newValue) -> refreshPreview());
-        end.textProperty().addListener((observable, oldValue, newValue) -> refreshPreview());
+        // would be nice but is to slow
+        //start.textProperty().addListener((observable, oldValue, newValue) -> refreshPreview());
+        //end.textProperty().addListener((observable, oldValue, newValue) -> refreshPreview());
     }
 
     private void refreshPreview(){
         if(end.textProperty().get().length()>2&&start.textProperty().get().length()>2) {
             try {
-                FileInputStream input = new FileInputStream(mapPictureService.getPathOfCreatedPicture(start.getText(), end.getText()));
+                FileInputStream input = new FileInputStream(mapPictureServiceProvider.getPathOfCreatedPicture(start.getText(), end.getText()));
                 Image image = new Image(input);
                 preview.setImage(image);
             } catch (FileNotFoundException e) {
@@ -111,6 +108,8 @@ public class TourEditViewController implements IViewController {
 
         selectedTour.setTourDistance(distanceDouble);
 
+        selectedTour.setRouteInformation(mapPictureServiceProvider.getPathOfCreatedPicture(start.getText(),end.getText()));
+
         tourDAO.update(selectedTour);
         Stage stage = (Stage) name.getScene().getWindow();
         stage.close();
@@ -120,5 +119,9 @@ public class TourEditViewController implements IViewController {
     public void cancelCreation(ActionEvent actionEvent) {
         Stage stage = (Stage) name.getScene().getWindow();
         stage.close();
+    }
+
+    public void updatePreview(ActionEvent actionEvent) {
+        refreshPreview();
     }
 }
