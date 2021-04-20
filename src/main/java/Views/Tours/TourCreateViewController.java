@@ -81,7 +81,13 @@ public class TourCreateViewController implements IViewController {
         if(!distance.getText().equals(""))
             distanceDouble = parseDouble(distance.getText());
 
-        tourDAO.create(new Tour(1L, name.getText(), description.getText(), mapPictureServiceProvider.getPathOfCreatedPicture(start.getText(), end.getText()),distanceDouble ));
+        String pathToFile= null;
+        if(start.getLength()>3&&end.getLength()>3)
+        {
+            pathToFile=  mapPictureServiceProvider.getPathOfCreatedPicture(start.getText(),end.getText());
+        }
+
+        tourDAO.create(new Tour(1L, name.getText(), description.getText(),pathToFile,distanceDouble ));
         Stage stage = (Stage) name.getScene().getWindow();
         stage.close();
 

@@ -55,12 +55,20 @@ public class TourDescriptionViewController implements IViewController {
             if(selectedTour!=null ) {
                 selectedTourName.setValue(selectedTour.getName());
                 selectedTourDesc.setValue(selectedTour.getTourDescription());
-                try {
-                    FileInputStream input = new FileInputStream(selectedTour.getRouteInformation());
-                    Image image= new Image(input);
-                    selectedTourRouteInfoField.setImage(image);
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
+
+                if(selectedTour.getRouteInformation()!=null&&selectedTour.getRouteInformation()!="") {
+                    try {
+                        FileInputStream input = new FileInputStream(selectedTour.getRouteInformation());
+                        Image image = new Image(input);
+                        selectedTourRouteInfoField.setImage(image);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                }
+                else{
+                    selectedTourName.setValue("");
+                    selectedTourDesc.setValue("");
+                    selectedTourRouteInfoField.setImage(null);
                 }
             }
             else{
@@ -76,12 +84,19 @@ public class TourDescriptionViewController implements IViewController {
             if(selectedTour!=null ) {
                 selectedTourName.setValue(selectedTour.getName());
                 selectedTourDesc.setValue(selectedTour.getTourDescription());
-                try {
-                    FileInputStream input = new FileInputStream(selectedTour.getRouteInformation());
-                    Image image= new Image(input);
-                    selectedTourRouteInfoField.setImage(image);
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
+                if(selectedTour.getRouteInformation()!=null&&selectedTour.getRouteInformation()!="") {
+                    try {
+                        FileInputStream input = new FileInputStream(selectedTour.getRouteInformation());
+                        Image image = new Image(input);
+                        selectedTourRouteInfoField.setImage(image);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                }
+                else{
+                    selectedTourName.setValue("");
+                    selectedTourDesc.setValue("");
+                    selectedTourRouteInfoField.setImage(null);
                 }
             }
             else{

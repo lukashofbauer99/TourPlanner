@@ -1,5 +1,6 @@
 package DataAccess.Repositories.DAOs;
 
+import BusinessLogic.Services.Config.Config;
 import DataAccess.Repositories.Repositories.InMemory.InMemoryDatabase;
 import DataAccess.Repositories.Repositories.InMemory.Repos.InMemoryTourLogRepo;
 import DataAccess.Repositories.Repositories.InMemory.Repos.InMemoryTourRepo;
@@ -25,8 +26,14 @@ public class TourLogDAO implements ITourLogDAO {
     public static TourLogDAO tourDAO;
 
     private TourLogDAO() {
-        log.info("using in memoryRepo");
-        repo = new InMemoryTourLogRepo(InMemoryDatabase.getInstance());
+        if(Config.RepoType.equals("InMemory")) {
+            log.info("using in memoryRepo");
+            repo = new InMemoryTourLogRepo(InMemoryDatabase.getInstance());
+        }
+        else if(Config.RepoType.equals("Database"))
+        {
+            //not implemented yet
+        }
     }
 
 
