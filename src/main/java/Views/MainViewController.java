@@ -71,10 +71,11 @@ public class MainViewController implements IViewController {
         //Adding action on the menu item
         File file = fileChooser.showSaveDialog(this.searchInput.getScene().getWindow());
 
-        if(!reportingServiceProvider.generateReport(tourDAO.getAll(),file.getPath()))
-        {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Error creating Report",ButtonType.OK);
-            alert.showAndWait();
+        if(file!=null) {
+            if (!reportingServiceProvider.generateReport(tourDAO.getAll(), file.getPath())) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Error creating Report", ButtonType.OK);
+                alert.showAndWait();
+            }
         }
 
     }
@@ -87,10 +88,12 @@ public class MainViewController implements IViewController {
         //Adding action on the menu item
         File file = fileChooser.showSaveDialog(this.searchInput.getScene().getWindow());
 
-        if(!import_exportServiceProvider.exportData(tourDAO.getAll(),file.getPath()))
-        {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Error creating Export",ButtonType.OK);
-            alert.showAndWait();
+
+        if(file!=null) {
+            if (!import_exportServiceProvider.exportData(tourDAO.getAll(), file.getPath())) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Error creating Export", ButtonType.OK);
+                alert.showAndWait();
+            }
         }
 
     }
@@ -105,6 +108,7 @@ public class MainViewController implements IViewController {
 
         if(file!=null)
             import_exportServiceProvider.importData(file.getPath()).forEach(x->tourDAO.create(x));
+
 
     }
 
