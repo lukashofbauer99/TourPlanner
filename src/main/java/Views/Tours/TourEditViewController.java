@@ -108,7 +108,9 @@ public class TourEditViewController implements IViewController {
 
         selectedTour.setTourDistance(distanceDouble);
 
-        selectedTour.setRouteInformation(mapPictureServiceProvider.getPathOfCreatedPicture(start.getText(),end.getText()));
+        if(start.getLength()>3&&end.getLength()>3) {
+            selectedTour.setRouteInformation(mapPictureServiceProvider.getPathOfCreatedPicture(start.getText(), end.getText()));
+        }
 
         tourDAO.update(selectedTour);
         Stage stage = (Stage) name.getScene().getWindow();

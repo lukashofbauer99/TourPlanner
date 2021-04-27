@@ -1,7 +1,6 @@
 package BusinessLogic.Services.MapService;
 
-import DataAccess.Repositories.Repositories.InMemory.InMemoryDatabase;
-import DataAccess.Repositories.Repositories.InMemory.Repos.InMemoryTourRepo;
+import BusinessLogic.Services.Config.Config;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -14,8 +13,16 @@ public class MapPictureServiceProvider {
 
     private MapPictureServiceProvider() {
         //load from config ?
-        log.info("using in MapQuestPictureService");
-        mapPictureService = new MapQuestPictureService("MapReqTourPics/");
+        if(Config.MapPictureServiceType.equals("MapQuest")) {
+            log.info("using in MapQuestPictureService");
+            mapPictureService = new MapQuestPictureService("MapReqTourPics/");
+        }
+        else if(Config.MapPictureServiceType.equals("Mock"))
+        {
+            log.info("using in Mock");
+            mapPictureService = new MockMapPictureService();
+        }
+
     }
 
 
