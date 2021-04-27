@@ -47,9 +47,8 @@
             <MenuItem mnemonicParsing="false" text="REDO"/>
         </Menu>
         <Menu mnemonicParsing="false" text="Options">
-            <MenuItem mnemonicParsing="false" text="Option1"/>
-            <MenuItem mnemonicParsing="false" text="Option2"/>
-            <MenuItem mnemonicParsing="false" text="Option3"/>
+            <MenuItem onAction="#exportData" mnemonicParsing="false" text="Export as JSON"/>
+            <MenuItem onAction="#importData" mnemonicParsing="false" text="Import as JSON"/>
         </Menu>
         <Menu mnemonicParsing="false" text="Help">
             <MenuItem mnemonicParsing="false" text="About"/>
@@ -60,7 +59,7 @@
             <Label alignment="CENTER" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="2">Search
                 Tour:
             </Label>
-            <TextField fx:id="searchInput" onKeyReleased="#onKeyReleased" promptText="Search Something">
+            <TextField fx:id="searchInput" promptText="Search Something">
                 <padding>
                     <Insets bottom="5.0" right="5.0"/>
                 </padding>

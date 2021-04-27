@@ -1,6 +1,6 @@
 package BusinessLogic.Services.MapService;
 
-import BusinessLogic.Services.Config.Config;
+import BusinessLogic.Services.ConfigService.ConfigService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -13,11 +13,11 @@ public class MapPictureServiceProvider {
 
     private MapPictureServiceProvider() {
         //load from config
-        if(Config.MapPictureServiceType.equals("MapQuest")) {
+        if(ConfigService.MapPictureServiceType.equals("MapQuest")) {
             log.info("using in MapQuestPictureService");
-            mapPictureService = new MapQuestPictureService(Config.MapPictureFolderPath);
+            mapPictureService = new MapQuestPictureService(ConfigService.MapPictureFolderPath);
         }
-        else if(Config.MapPictureServiceType.equals("Mock"))
+        else if(ConfigService.MapPictureServiceType.equals("Mock"))
         {
             log.info("using in Mock");
             mapPictureService = new MockMapPictureService();

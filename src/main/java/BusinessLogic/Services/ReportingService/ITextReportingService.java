@@ -6,17 +6,21 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
-import com.itextpdf.text.pdf.TextField;
-import com.sun.scenario.effect.ImageData;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ITextReportingService implements IReportingService{
+    private final Logger log = LogManager.getLogger("standardLogger");
+
     @Override
-    public void generateReport(List<Tour> tours, String path) {
+    public boolean generateReport(List<Tour> tours, String path) {
+
+        AtomicBoolean success = new AtomicBoolean(true);
 
         try {
             // AGPL License! https://youtu.be/QHF3xcWnSD4
@@ -58,14 +62,16 @@ public class ITextReportingService implements IReportingService{
                     tourParagraph.add(tourFieldsParagraph);
                     document.add(tourParagraph);
                 } catch (DocumentException | IOException e) {
-                    e.printStackTrace();
+                    log.fatal(e.getMessage());
+                    success.set(false);
                 }
             });
 
             document.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            log.fatal(e.getMessage());
+            success.set(false);
         }
-
+        return success.get();
     }
 }

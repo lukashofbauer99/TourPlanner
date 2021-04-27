@@ -1,14 +1,10 @@
 package DataAccess.Repositories.DAOs;
 
-import BusinessLogic.Services.Config.Config;
+import BusinessLogic.Services.ConfigService.ConfigService;
 import DataAccess.Repositories.Repositories.InMemory.InMemoryDatabase;
 import DataAccess.Repositories.Repositories.InMemory.Repos.InMemoryTourRepo;
 import DataAccess.Repositories.Repositories.Interfaces.ITourRepo;
 import Models.Tour;
-import jdk.jshell.spi.ExecutionControl;
-import lombok.extern.log4j.Log4j;
-import lombok.extern.log4j.Log4j2;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -25,11 +21,11 @@ public class TourDAO implements ITourDAO {
     private TourDAO() {
         //load from config ?
 
-        if(Config.RepoType.equals("InMemory")) {
+        if(ConfigService.RepoType.equals("InMemory")) {
             log.info("using in memoryRepo");
             repo = new InMemoryTourRepo(InMemoryDatabase.getInstance());
         }
-        else if(Config.RepoType.equals("Database"))
+        else if(ConfigService.RepoType.equals("Database"))
         {
             //not implemented yet
         }

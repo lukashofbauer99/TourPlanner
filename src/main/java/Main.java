@@ -1,4 +1,4 @@
-import BusinessLogic.Services.Config.Config;
+import BusinessLogic.Services.ConfigService.ConfigService;
 import Views.ViewManager;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -9,7 +9,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Config.load();
+        ConfigService.load();
         Configurator.initialize(null, "log4j.conf.xml");
         ViewManager.createView("main", primaryStage, "Main Window");
     }
