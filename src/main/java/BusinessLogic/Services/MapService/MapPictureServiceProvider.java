@@ -12,15 +12,19 @@ public class MapPictureServiceProvider {
     public static MapPictureServiceProvider instance;
 
     private MapPictureServiceProvider() {
-        //load from config ?
+        //load from config
         if(Config.MapPictureServiceType.equals("MapQuest")) {
             log.info("using in MapQuestPictureService");
-            mapPictureService = new MapQuestPictureService("MapReqTourPics/");
+            mapPictureService = new MapQuestPictureService(Config.MapPictureFolderPath);
         }
         else if(Config.MapPictureServiceType.equals("Mock"))
         {
             log.info("using in Mock");
             mapPictureService = new MockMapPictureService();
+        }
+        else
+        {
+            log.fatal("Wrong Config");
         }
 
     }

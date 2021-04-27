@@ -10,8 +10,8 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         Config.load();
-        Configurator.initialize(null,"log4j.conf.xml");
-        ViewManager.createView("main",primaryStage,"Main Window");
+        Configurator.initialize(null, "log4j.conf.xml");
+        ViewManager.createView("main", primaryStage, "Main Window");
     }
 
 

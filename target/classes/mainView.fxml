@@ -40,7 +40,7 @@
 
     <MenuBar GridPane.columnIndex="0" GridPane.columnSpan="7" GridPane.rowIndex="1">
         <Menu mnemonicParsing="false" text="File">
-            <MenuItem mnemonicParsing="false" text="Save as PDF"/>
+            <MenuItem onAction="#generateReport" mnemonicParsing="false" text="Save as PDF"/>
         </Menu>
         <Menu mnemonicParsing="false" text="Edit">
             <MenuItem mnemonicParsing="false" text="UNDO"/>
