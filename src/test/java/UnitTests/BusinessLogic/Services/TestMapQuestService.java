@@ -11,13 +11,15 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TestMapQuestService {
 
-    IMapPictureService mapPictureService = new MapQuestPictureService("testMapReqTourPics/");
+    String testFolderPath= "src/test/java/UnitTests/BusinessLogic/Services/TestFolder/";
+
+    IMapPictureService mapPictureService = new MapQuestPictureService(testFolderPath);
 
 
     @AfterEach
     void ClearDir()
     {
-        File outputfile = new File("testMapReqTourPics/");
+        File outputfile = new File(testFolderPath);
         for(File file: outputfile.listFiles())
             if (!file.isDirectory())
                 file.delete();
@@ -31,7 +33,7 @@ public class TestMapQuestService {
 
         //act
         mapPictureService.getPathOfCreatedPicture(start,end);
-        File f = new File("testMapReqTourPics/Vienna_Paris.jpg");
+        File f = new File(testFolderPath+"Vienna_Paris.jpg");
 
 
         //assert
@@ -46,7 +48,7 @@ public class TestMapQuestService {
 
         //act
         mapPictureService.getPathOfCreatedPicture(start,end);
-        File f = new File("testMapReqTourPics/Gars+am+Kamp_Vienna.jpg");
+        File f = new File(testFolderPath+"Gars+am+Kamp_Vienna.jpg");
 
 
         //assert
