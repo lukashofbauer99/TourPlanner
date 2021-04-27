@@ -34,6 +34,10 @@ public class TourLogDAO implements ITourLogDAO {
         {
             //not implemented yet
         }
+        else
+        {
+            log.fatal("Wrong Config");
+        }
     }
 
 

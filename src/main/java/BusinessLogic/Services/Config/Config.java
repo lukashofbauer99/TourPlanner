@@ -7,6 +7,8 @@ import java.util.Properties;
 public class Config {
     public static String RepoType;
     public static String MapPictureServiceType;
+    public static String ReportServiceType;
+    public static String MapPictureFolderPath;
 
     public static void load() {
         try {
@@ -17,6 +19,8 @@ public class Config {
             //This is where you add your config variables:
             RepoType = (String) appSettings.get("RepoType");
             MapPictureServiceType = (String) appSettings.get("MapPictureServiceType");
+            ReportServiceType = (String) appSettings.get("ReportServiceType");
+            MapPictureFolderPath = (String) appSettings.get("MapPictureFolderPath");
 
             fis.close();
         } catch (IOException e) {

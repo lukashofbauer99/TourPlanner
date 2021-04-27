@@ -1,6 +1,9 @@
 # Route Pictures
 MapReqTourPics/*
 
+# target
+target/*
+
 # Compiled class file
 *.class
 
