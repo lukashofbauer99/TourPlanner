@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface IReportingService {
 
-    void generateReport(List<Tour> tours , String path);
+    boolean generateReport(List<Tour> tours , String path);
 
 }

@@ -1,19 +1,20 @@
-package BusinessLogic.Services.Config;
+package BusinessLogic.Services.ConfigService;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-public class Config {
+public class ConfigService {
     public static String RepoType;
     public static String MapPictureServiceType;
     public static String ReportServiceType;
     public static String MapPictureFolderPath;
+    public static String Export_ImportServiceType;
 
     public static void load() {
         try {
             Properties appSettings = new Properties();
-            FileInputStream fis = new FileInputStream("src/main/java/BusinessLogic/Services/Config/config.properties"); //put config properties file to buffer
+            FileInputStream fis = new FileInputStream("src/main/java/BusinessLogic/Services/ConfigService/config.properties"); //put config properties file to buffer
             appSettings.load(fis); //load config.properties file
 
             //This is where you add your config variables:
@@ -21,6 +22,7 @@ public class Config {
             MapPictureServiceType = (String) appSettings.get("MapPictureServiceType");
             ReportServiceType = (String) appSettings.get("ReportServiceType");
             MapPictureFolderPath = (String) appSettings.get("MapPictureFolderPath");
+            Export_ImportServiceType = (String) appSettings.get("Export_ImportServiceType");
 
             fis.close();
         } catch (IOException e) {
