@@ -53,7 +53,7 @@ public class InMemoryTourLogRepo implements ITourLogRepo {
     }
 
     @Override
-    public void update(TourLog entity) {
+    public boolean update(TourLog entity) {
         TourLog logToUpdate = inMemoryDatabase.getTourLogs().stream().filter(x->x.getId().equals(entity.getId())).findFirst().orElse(null);
         if(logToUpdate!=null) {
             logToUpdate.setRating(entity.getRating());
@@ -70,13 +70,17 @@ public class InMemoryTourLogRepo implements ITourLogRepo {
             inMemoryDatabase.triggerTourLogEvent();
             inMemoryDatabase.triggerTourEvent();
             log.info("update TourLog");
+            return true;
         }
-        else
+        else {
             log.error("TourLog null");
+            return false;
+        }
+
     }
 
     @Override
-    public void delete(Long id) {
+    public boolean delete(Long id) {
         TourLog logToRemove = inMemoryDatabase.getTourLogs().stream().filter(x->x.getId().equals(id)).findFirst().orElse(null);
         if(logToRemove!=null) {
             inMemoryDatabase.getTourLogs().remove(logToRemove);
@@ -84,9 +88,12 @@ public class InMemoryTourLogRepo implements ITourLogRepo {
             inMemoryDatabase.triggerTourLogEvent();
             inMemoryDatabase.triggerTourEvent();
             log.info("delete TourLog");
+            return true;
         }
-        else
+        else {
             log.error("TourLog null");
+            return false;
+        }
     }
 
     @Override

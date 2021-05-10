@@ -11,6 +11,22 @@ import java.util.Date;
 public class TourLog {
     Long id;
     Date date;
+    String report;
+    //tour distance in km
+    double distance;
+    //time spent in hours
+    double totalTime;
+    //1-5
+    int rating;
+
+    //in km/h
+    double averageSpeed;
+    String typeOfTransport;
+    int difficulty;
+    int recommendedPeopleCount;
+    boolean toiletOnThePath;
+
+    long tourId;
 
     public TourLog(Date date, String report, double distance, double totalTime, int rating) {
         this.date = date;
@@ -32,21 +48,6 @@ public class TourLog {
         this.recommendedPeopleCount = recommendedPeopleCount;
         this.toiletOnThePath = toiletOnThePath;
     }
-
-    String report;
-    //tour distance in km
-    double distance;
-    //time spent in hours
-    double totalTime;
-    //1-5
-    int rating;
-
-    //in km/h
-    double averageSpeed;
-    String typeOfTransport;
-    int difficulty;
-    int recommendedPeopleCount;
-    boolean toiletOnThePath;
 
     public boolean getToiletOnThePath() {
         return toiletOnThePath;

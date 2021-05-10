@@ -13,6 +13,13 @@ import java.util.List;
 public class Tour {
     Long id;
     String name;
+    String tourDescription;
+    //Path to Picture
+    String routeInformation;
+    //tour distance in km
+    double tourDistance;
+
+    List<TourLog> logs = new ArrayList<>();
 
     public Tour(Long id, String name, String tourDescription, String routeInformation, double tourDistance) {
         this.id = id;
@@ -28,12 +35,4 @@ public class Tour {
         this.routeInformation = routeInformation;
         this.tourDistance = tourDistance;
     }
-
-    String tourDescription;
-    //Path to Picture
-    String routeInformation;
-    //tour distance in km
-    double tourDistance;
-
-    List<TourLog> logs = new ArrayList<>();
 }

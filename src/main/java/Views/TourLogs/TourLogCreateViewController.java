@@ -140,10 +140,11 @@ public class TourLogCreateViewController implements IViewController {
 
         TourLog tourLog = new TourLog(new Date(),report.getText(),distanceDouble,totalTimeDouble,ratingInt, averageSpeedDouble
                 ,typeOfTransport.getText(),difficultyInt, recommendedPeopleCountInt, toiletOnThePath.isSelected());
+        tourLog.setTourId(selectedTour.getId());
         tourLog.setId(tourLogDAO.create(tourLog));
 
-        selectedTour.getLogs().add(tourLog);
-        tourDAO.update(selectedTour);
+        //selectedTour.getLogs().add(tourLog);
+        //tourDAO.update(selectedTour);
 
         Stage stage = (Stage) report.getScene().getWindow();
         stage.close();

@@ -57,8 +57,9 @@ public class TourLogsViewController implements IViewController {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         loadLogs();
 
-        tourDAO.registerForNotification(()->
-                loadLogs());
+        tourDAO.registerForNotification(this::loadLogs);
+
+        tourLogDAO.registerForNotification(this::loadLogs);
 
         selectedTourId.addListener(x->
                 loadLogs());

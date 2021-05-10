@@ -10,8 +10,8 @@ public interface IRepository<T,id> {
 
     id create(T entity);
     T read(id id);
-    void update(T entity);
-    void delete(id id);
+    boolean update(T entity);
+    boolean delete(id id);
 
     void registerForNotification(Runnable method);
 }

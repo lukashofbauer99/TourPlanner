@@ -4,6 +4,7 @@ import BusinessLogic.Services.ConfigService.ConfigService;
 import DataAccess.Repositories.Repositories.InMemory.InMemoryDatabase;
 import DataAccess.Repositories.Repositories.InMemory.Repos.InMemoryTourRepo;
 import DataAccess.Repositories.Repositories.Interfaces.ITourRepo;
+import DataAccess.Repositories.Repositories.PostgresDB.PostgresTourRepo;
 import Models.Tour;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -27,7 +28,7 @@ public class TourDAO implements ITourDAO {
         }
         else if(ConfigService.RepoType.equals("Database"))
         {
-            //not implemented yet
+            repo = new PostgresTourRepo(ConfigService.ConnectionString,ConfigService.DBUser,ConfigService.DBPassword);
         }
         else
         {

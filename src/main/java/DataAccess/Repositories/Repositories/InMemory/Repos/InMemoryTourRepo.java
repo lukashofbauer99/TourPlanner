@@ -5,6 +5,7 @@ import DataAccess.Repositories.Repositories.InMemory.IInMemoryDatabase;
 import DataAccess.Repositories.Repositories.InMemory.InMemoryDatabase;
 import DataAccess.Repositories.Repositories.Interfaces.ITourRepo;
 import Models.Tour;
+import Models.TourLog;
 import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.LogManager;
@@ -59,7 +60,7 @@ public class InMemoryTourRepo implements ITourRepo {
     }
 
     @Override
-    public void update(Tour entity) {
+    public boolean update(Tour entity) {
         Tour tourToUpdate = inMemoryDatabase.getTours().stream().filter(x->x.getId().equals(entity.getId())).findFirst().orElse(null);
         if(tourToUpdate!=null) {
             tourToUpdate.setName(entity.getName());
@@ -68,20 +69,20 @@ public class InMemoryTourRepo implements ITourRepo {
             tourToUpdate.setTourDistance(entity.getTourDistance());
             if(!tourToUpdate.getLogs().equals(entity.getLogs()))
             {
-                tourToUpdate.getLogs().addAll(
-                //get every log that is contained in entity but not in tourToUpdate
-                tourToUpdate.getLogs().stream()
-                        .filter(x->
-                                entity.getLogs().stream().map(y->y.getId()).collect(Collectors.toList())
-                                        .contains(x.getId()))
-                        .collect(Collectors.toList())
+                boolean b = tourToUpdate.getLogs().addAll(
+                        //get every log that is contained in entity but not in tourToUpdate
+                        tourToUpdate.getLogs().stream()
+                                .filter(x ->
+                                        entity.getLogs().stream().map(TourLog::getId).collect(Collectors.toList())
+                                                .contains(x.getId()))
+                                .collect(Collectors.toList())
                 );
 
                 tourToUpdate.getLogs().removeAll(
                         //get every log that is not contained in entity but in tourToUpdate
                         entity.getLogs().stream()
                                 .filter(x->
-                                        !(tourToUpdate.getLogs().stream().map(y->y.getId()).collect(Collectors.toList())
+                                        !(tourToUpdate.getLogs().stream().map(TourLog::getId).collect(Collectors.toList())
                                                 .contains(x.getId())))
                                 .collect(Collectors.toList())
                 );
@@ -89,24 +90,29 @@ public class InMemoryTourRepo implements ITourRepo {
             }
             inMemoryDatabase.triggerTourEvent();
             log.info("update Tour");
+            return true;
 
         }
-        else
+        else {
             log.error("TourLog null");
+            return false;
+        }
     }
 
     @Override
-    public void delete(Long id) {
+    public boolean delete(Long id) {
         Tour tourToRemove = inMemoryDatabase.getTours().stream().filter(x->x.getId().equals(id)).findFirst().orElse(null);
         if(tourToRemove!=null) {
             inMemoryDatabase.getTourLogs().removeAll(tourToRemove.getLogs());
             inMemoryDatabase.getTours().remove(tourToRemove);
             inMemoryDatabase.triggerTourEvent();
             log.info("delete Tour");
-
+            return true;
         }
-        else
+        else {
             log.error("TourLog null");
+            return false;
+        }
     }
 
     @Override
