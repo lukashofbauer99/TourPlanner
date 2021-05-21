@@ -3,6 +3,8 @@ package Views;
 import BusinessLogic.Services.Import_ExportService.Import_ExportServiceProvider;
 import BusinessLogic.Services.ReportingService.ReportingServiceProvider;
 import DataAccess.Repositories.DAOs.TourDAO;
+import ViewModels.IViewModel;
+import ViewModels.MainViewModel;
 import Views.TourLogs.TourLogsViewController;
 import Views.Tours.TourDescriptionViewController;
 import Views.Tours.ToursOverviewViewController;
@@ -26,10 +28,7 @@ import java.util.ResourceBundle;
 
 public class MainViewController implements IViewController {
 
-    public TourDAO tourDAO = TourDAO.getInstance();
-
-    public ReportingServiceProvider reportingServiceProvider= ReportingServiceProvider.getInstance();
-    public Import_ExportServiceProvider import_exportServiceProvider= Import_ExportServiceProvider.getInstance();
+    MainViewModel viewModel;
 
     public LongProperty selectedTourId= new SimpleLongProperty();
 
@@ -51,6 +50,7 @@ public class MainViewController implements IViewController {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
+        viewModel= new MainViewModel(this);
         selectedTourId.bindBidirectional(toursOverviewViewController.selectedTourId);
         selectedTourId.bindBidirectional(tourDescriptionViewController.selectedTourId);
         selectedTourId.bindBidirectional(tourLogsViewController.selectedTourId);
@@ -64,54 +64,20 @@ public class MainViewController implements IViewController {
     }
 
     public void generateReport(ActionEvent actionEvent) {
-        //Creating a File chooser
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Save");
-        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PDF", "*.pdf*"));
-        //Adding action on the menu item
-        File file = fileChooser.showSaveDialog(this.searchInput.getScene().getWindow());
-
-        if(file!=null) {
-            if (!reportingServiceProvider.generateReport(tourDAO.getAll(), file.getPath())) {
-                Alert alert = new Alert(Alert.AlertType.ERROR, "Error creating Report", ButtonType.OK);
-                alert.showAndWait();
-            }
-        }
-
+       viewModel.generateReport();
     }
 
     public void exportData(ActionEvent actionEvent) {
-        //Creating a File chooser
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Save");
-        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("JSON", "*.json*"));
-        //Adding action on the menu item
-        File file = fileChooser.showSaveDialog(this.searchInput.getScene().getWindow());
-
-
-        if(file!=null) {
-            if (!import_exportServiceProvider.exportData(tourDAO.getAll(), file.getPath())) {
-                Alert alert = new Alert(Alert.AlertType.ERROR, "Error creating Export", ButtonType.OK);
-                alert.showAndWait();
-            }
-        }
-
+        viewModel.exportData();
     }
 
     public void importData(ActionEvent actionEvent) {
-        //Creating a File chooser
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Save");
-        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("JSON", "*.json*"));
-        //Adding action on the menu item
-        File file = fileChooser.showOpenDialog(this.searchInput.getScene().getWindow());
-
-        if(file!=null)
-            import_exportServiceProvider.importData(file.getPath()).forEach(x->tourDAO.create(x));
-
-
+      viewModel.importData();
     }
 
 
-
+    @Override
+    public IViewModel getViewModel() {
+        return viewModel;
+    }
 }

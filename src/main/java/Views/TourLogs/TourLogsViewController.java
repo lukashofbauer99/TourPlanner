@@ -6,6 +6,8 @@ import DataAccess.Repositories.DAOs.TourDAO;
 import DataAccess.Repositories.DAOs.TourLogDAO;
 import Models.Tour;
 import Models.TourLog;
+import ViewModels.IViewModel;
+import ViewModels.TourLogs.TourLogsViewModel;
 import Views.IViewController;
 import Views.ViewManager;
 import javafx.beans.property.LongProperty;
@@ -29,12 +31,11 @@ import java.util.ResourceBundle;
 @NoArgsConstructor
 public class TourLogsViewController implements IViewController {
 
-    ITourDAO tourDAO = TourDAO.getInstance();
-    ITourLogDAO tourLogDAO = TourLogDAO.getInstance();
+    TourLogsViewModel viewModel;
 
-    private Long selectedLogId=0L;
+    public Long selectedLogId=0L;
 
-    private Tour selectedTour;
+    public Tour selectedTour;
     public LongProperty selectedTourId= new SimpleLongProperty();
 
     public StringProperty searchString= new SimpleStringProperty();
@@ -55,11 +56,11 @@ public class TourLogsViewController implements IViewController {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        viewModel= new TourLogsViewModel(this);
+
         loadLogs();
-
-        tourDAO.registerForNotification(this::loadLogs);
-
-        tourLogDAO.registerForNotification(this::loadLogs);
+        register();
 
         selectedTourId.addListener(x->
                 loadLogs());
@@ -69,16 +70,14 @@ public class TourLogsViewController implements IViewController {
 
     }
 
+    private void register()
+    {
+       viewModel.register();
+    }
+
     private void loadLogs()
     {
-        if (selectedTourId!=null&&selectedTourId.get()!=0) {
-            selectedTour = tourDAO.read(selectedTourId.get());
-            logs.setAll(selectedTour.getLogs());
-            logsListView.setItems(logs);
-            selectedLogId = null;
-        }
-        else
-            logs.clear();
+        viewModel.loadLogs();
     }
 
     private void setListViewCellFormat()
@@ -99,44 +98,30 @@ public class TourLogsViewController implements IViewController {
 
     private void setSelectedLogListener()
     {
-        logsListView.getSelectionModel().selectedItemProperty().addListener(((observableValue, old, newVal) ->
-        {
-            if(newVal!=null) {
-                selectedLogId =newVal.getId();
-            }
-        }));
+        viewModel.setSelectedLogListener();
     }
 
     public void addNewLog(ActionEvent actionEvent) {
-        if (selectedTourId.get()!=0) {
-            logCreateViewController = (TourLogCreateViewController) ViewManager.createView("createTourLog", new Stage(), "Create Log");
-            logCreateViewController.selectedTourId = selectedTourId.get();
-            logCreateViewController.initSelectedTour();
-        }
+       viewModel.addNewLog();
 
     }
 
 
     public void removeLog(ActionEvent actionEvent) {
-        if(selectedLogId !=null) {
-            tourLogDAO.delete(selectedLogId);
-        }
+        viewModel.removeLog();
 
     }
 
     public void editLog(ActionEvent actionEvent) {
-        if (selectedTourId.get()!=0&&selectedLogId!=null&& selectedLogId!=0) {
-            tourLogEditViewController = (TourLogEditViewController) ViewManager.createView("editTourLog", new Stage(), "Edit Log");
-            tourLogEditViewController.selectedTourLogId = selectedLogId;
-            tourLogEditViewController.initSelectedTourLog();
-        }
+      viewModel.editLog();
     }
 
     public void showLog(ActionEvent actionEvent) {
-        if (selectedTourId.get() != 0 && selectedLogId != null && selectedLogId != 0) {
-            tourLogDetailsViewController = (TourLogDetailsViewController) ViewManager.createView("detailsTourLog", new Stage(), "Show Log");
-            tourLogDetailsViewController.selectedTourLogId = selectedLogId;
-            tourLogDetailsViewController.initSelectedTourLog();
-        }
+        viewModel.showLog();
+    }
+
+    @Override
+    public IViewModel getViewModel() {
+        return viewModel;
     }
 }

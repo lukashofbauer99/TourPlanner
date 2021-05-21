@@ -37,6 +37,7 @@ public class PostgresTourRepo implements ITourRepo {
                     routeInformation,
                     tourDistance
                     FROM tours
+                    ORDER BY name
                     """);
 
             ResultSet resultSet = statement.executeQuery();

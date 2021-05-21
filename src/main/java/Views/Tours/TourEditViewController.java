@@ -6,6 +6,8 @@ import BusinessLogic.Services.MapService.MapQuestPictureService;
 import DataAccess.Repositories.DAOs.ITourDAO;
 import DataAccess.Repositories.DAOs.TourDAO;
 import Models.Tour;
+import ViewModels.IViewModel;
+import ViewModels.Tours.TourEditViewModel;
 import Views.IViewController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -28,11 +30,13 @@ public class TourEditViewController implements IViewController {
 
     MapPictureServiceProvider mapPictureServiceProvider = MapPictureServiceProvider.getInstance();
 
+    TourEditViewModel viewModel;
+
     ITourDAO tourDAO = TourDAO.getInstance();
 
     public long selectedTourId=0;
 
-    private Tour selectedTour;
+    public Tour selectedTour;
 
     @FXML
     public TextField name;
@@ -56,6 +60,8 @@ public class TourEditViewController implements IViewController {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        viewModel = new TourEditViewModel(this);
+
         distance.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.matches("\\d{0,7}([\\.]\\d{0,4})?")) {
                 distance.setText(oldValue);
@@ -67,54 +73,14 @@ public class TourEditViewController implements IViewController {
         //end.textProperty().addListener((observable, oldValue, newValue) -> refreshPreview());
     }
 
-    private void refreshPreview(){
-        if(end.textProperty().get().length()>2&&start.textProperty().get().length()>2) {
-            try {
-                FileInputStream input = new FileInputStream(mapPictureServiceProvider.getPathOfCreatedPicture(start.getText(), end.getText()));
-                Image image = new Image(input);
-                preview.setImage(image);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-        }
-    }
     public void initSelectedTour()
     {
-        selectedTour= tourDAO.read(selectedTourId);
-
-        name.setText(selectedTour.getName());
-        description.setText(selectedTour.getTourDescription());
-
-        distance.setText(String.valueOf(selectedTour.getTourDistance()));
-
-
-        try {
-            FileInputStream input = new FileInputStream(selectedTour.getRouteInformation());
-            Image image = new Image(input);
-            preview.setImage(image);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        viewModel.initSelectedTour();
 
     }
 
     public void saveTour(ActionEvent actionEvent) {
-        double distanceDouble=0;
-        if(!distance.getText().equals(""))
-            distanceDouble = parseDouble(distance.getText());
-
-        selectedTour.setName(name.getText());
-        selectedTour.setTourDescription(description.getText());
-
-        selectedTour.setTourDistance(distanceDouble);
-
-        if(start.getLength()>3&&end.getLength()>3) {
-            selectedTour.setRouteInformation(mapPictureServiceProvider.getPathOfCreatedPicture(start.getText(), end.getText()));
-        }
-
-        tourDAO.update(selectedTour);
-        Stage stage = (Stage) name.getScene().getWindow();
-        stage.close();
+        viewModel.saveTour();
 
     }
 
@@ -124,6 +90,11 @@ public class TourEditViewController implements IViewController {
     }
 
     public void updatePreview(ActionEvent actionEvent) {
-        refreshPreview();
+        viewModel.refreshPreview();
+    }
+
+    @Override
+    public IViewModel getViewModel() {
+        return viewModel;
     }
 }

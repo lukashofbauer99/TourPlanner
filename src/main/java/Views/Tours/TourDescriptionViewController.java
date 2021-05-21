@@ -3,6 +3,8 @@ package Views.Tours;
 import DataAccess.Repositories.DAOs.ITourDAO;
 import DataAccess.Repositories.DAOs.TourDAO;
 import Models.Tour;
+import ViewModels.IViewModel;
+import ViewModels.Tours.TourDescriptionViewModel;
 import Views.IViewController;
 import javafx.beans.property.*;
 import javafx.fxml.FXML;
@@ -22,25 +24,28 @@ import java.util.ResourceBundle;
 @NoArgsConstructor
 public class TourDescriptionViewController implements IViewController {
 
-    ITourDAO tourDAO = TourDAO.getInstance();
 
-    private Tour selectedTour= null;
+    TourDescriptionViewModel viewModel;
+
+    public Tour selectedTour= null;
     public LongProperty selectedTourId= new SimpleLongProperty();
 
 
     @FXML
     public Label selectedTourNameField = new Label();
-    SimpleStringProperty selectedTourName = new SimpleStringProperty();
+    public SimpleStringProperty selectedTourName = new SimpleStringProperty();
 
     @FXML
     public TextArea selectedTourDescField= new TextArea();
-    SimpleStringProperty selectedTourDesc = new SimpleStringProperty();
+    public SimpleStringProperty selectedTourDesc = new SimpleStringProperty();
 
     @FXML
     public ImageView selectedTourRouteInfoField = new ImageView();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        viewModel= new TourDescriptionViewModel(this);
+
         selectedTourNameField.textProperty().bindBidirectional(selectedTourName);
         selectedTourDescField.textProperty().bindBidirectional(selectedTourDesc);
 
@@ -49,61 +54,11 @@ public class TourDescriptionViewController implements IViewController {
 
     public void setupSelectedTourListeners()
     {
-        tourDAO.registerForNotification(()->
-        {
-            selectedTour=tourDAO.read(selectedTourId.longValue());
-            if(selectedTour!=null ) {
-                selectedTourName.setValue(selectedTour.getName());
-                selectedTourDesc.setValue(selectedTour.getTourDescription());
+       viewModel.setupSelectedTourListeners();
+    }
 
-                if(selectedTour.getRouteInformation()!=null&&selectedTour.getRouteInformation()!="") {
-                    try {
-                        FileInputStream input = new FileInputStream(selectedTour.getRouteInformation());
-                        Image image = new Image(input);
-                        selectedTourRouteInfoField.setImage(image);
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                }
-                else{
-                    selectedTourName.setValue("");
-                    selectedTourDesc.setValue("");
-                    selectedTourRouteInfoField.setImage(null);
-                }
-            }
-            else{
-                selectedTourName.setValue("");
-                selectedTourDesc.setValue("");
-                selectedTourRouteInfoField.setImage(null);
-            }
-        });
-
-        selectedTourId.addListener((observableValue, old, newVal) ->
-        {
-            selectedTour=tourDAO.read(newVal.longValue());
-            if(selectedTour!=null ) {
-                selectedTourName.setValue(selectedTour.getName());
-                selectedTourDesc.setValue(selectedTour.getTourDescription());
-                if(selectedTour.getRouteInformation()!=null&&selectedTour.getRouteInformation()!="") {
-                    try {
-                        FileInputStream input = new FileInputStream(selectedTour.getRouteInformation());
-                        Image image = new Image(input);
-                        selectedTourRouteInfoField.setImage(image);
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                }
-                else{
-                    selectedTourName.setValue("");
-                    selectedTourDesc.setValue("");
-                    selectedTourRouteInfoField.setImage(null);
-                }
-            }
-            else{
-                selectedTourName.setValue("");
-                selectedTourDesc.setValue("");
-                selectedTourRouteInfoField.setImage(null);
-                }
-        });
+    @Override
+    public IViewModel getViewModel() {
+        return viewModel;
     }
 }

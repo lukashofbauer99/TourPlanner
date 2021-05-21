@@ -6,6 +6,8 @@ import DataAccess.Repositories.DAOs.TourDAO;
 import DataAccess.Repositories.DAOs.TourLogDAO;
 import Models.Tour;
 import Models.TourLog;
+import ViewModels.IViewModel;
+import ViewModels.TourLogs.TourLogCreateViewModel;
 import Views.IViewController;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -29,12 +31,12 @@ import static java.lang.Integer.parseInt;
 @NoArgsConstructor
 public class TourLogCreateViewController implements IViewController {
 
-    ITourLogDAO tourLogDAO = TourLogDAO.getInstance();
-    ITourDAO tourDAO = TourDAO.getInstance();
+    TourLogCreateViewModel viewModel;
+
 
     public long selectedTourId=0;
 
-    private Tour selectedTour;
+    public Tour selectedTour;
 
     @FXML
     public TextField report;
@@ -68,6 +70,7 @@ public class TourLogCreateViewController implements IViewController {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        viewModel = new TourLogCreateViewModel(this);
 
         distance.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.matches("\\d{0,7}([\\.]\\d{0,4})?")) {
@@ -110,49 +113,20 @@ public class TourLogCreateViewController implements IViewController {
 
     public void initSelectedTour()
     {
-        selectedTour= tourDAO.read(selectedTourId);
+        viewModel.initSelectedTour();
 
     }
 
     public void createLog(ActionEvent actionEvent) {
-        double distanceDouble=0;
-        if(!distance.getText().equals(""))
-            distanceDouble = parseDouble(distance.getText());
-
-        double totalTimeDouble=0;
-        if(!totalTime.getText().equals(""))
-            totalTimeDouble = parseDouble(totalTime.getText());
-        double averageSpeedDouble=0;
-        if(!averageSpeed.getText().equals(""))
-            averageSpeedDouble = parseDouble(averageSpeed.getText());
-
-        int ratingInt=1;
-        if(!rating.getText().equals(""))
-            ratingInt= parseInt(rating.getText());
-
-        int difficultyInt=1;
-        if(!difficulty.getText().equals(""))
-            difficultyInt= parseInt(difficulty.getText());
-
-        int recommendedPeopleCountInt=1;
-        if(!recommendedPeopleCount.getText().equals(""))
-            recommendedPeopleCountInt= parseInt(recommendedPeopleCount.getText());
-
-        TourLog tourLog = new TourLog(new Date(),report.getText(),distanceDouble,totalTimeDouble,ratingInt, averageSpeedDouble
-                ,typeOfTransport.getText(),difficultyInt, recommendedPeopleCountInt, toiletOnThePath.isSelected());
-        tourLog.setTourId(selectedTour.getId());
-        tourLog.setId(tourLogDAO.create(tourLog));
-
-        //selectedTour.getLogs().add(tourLog);
-        //tourDAO.update(selectedTour);
-
-        Stage stage = (Stage) report.getScene().getWindow();
-        stage.close();
-
+       viewModel.createLog();
     }
 
     public void cancelCreation(ActionEvent actionEvent) {
-        Stage stage = (Stage) report.getScene().getWindow();
-        stage.close();
+        viewModel.cancelCreation();
+    }
+
+    @Override
+    public IViewModel getViewModel() {
+        return viewModel;
     }
 }

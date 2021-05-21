@@ -3,6 +3,8 @@ package Views.Tours;
 import DataAccess.Repositories.DAOs.ITourDAO;
 import DataAccess.Repositories.DAOs.TourDAO;
 import Models.Tour;
+import ViewModels.IViewModel;
+import ViewModels.Tours.ToursOverviewViewModel;
 import Views.IViewController;
 import Views.ViewManager;
 import javafx.beans.property.*;
@@ -24,7 +26,8 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 public class ToursOverviewViewController implements IViewController {
 
-    ITourDAO tourDAO = TourDAO.getInstance();
+
+    ToursOverviewViewModel viewModel;
 
     public ObservableList<Tour> tours= FXCollections.observableArrayList();
 
@@ -44,36 +47,15 @@ public class ToursOverviewViewController implements IViewController {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        viewModel= new ToursOverviewViewModel(this);
+
+        setListViewCellFormat();
         initListView();
     }
 
     public void initListView()
     {
-        loadTours();
-
-        setListViewCellFormat();
-        setSelectedTourListener();
-    }
-
-    private void loadTours()
-    {
-        tourDAO.registerForNotification(()->
-        {
-            if(searchString!=null&&searchString.get()!=null)
-                tours.setAll(tourDAO.getAll().stream().filter(x->x.getName().contains(searchString.get())).collect(Collectors.toList()));
-            else
-                tours.setAll(tourDAO.getAll());
-        });
-
-        searchString.addListener(x->{
-            if(searchString!=null&&searchString.get()!=null)
-                tours.setAll(tourDAO.getAll().stream().filter(y->y.getName().contains(searchString.get())).collect(Collectors.toList()));
-            else
-                tours.setAll(tourDAO.getAll());
-        });
-
-        tours.setAll(tourDAO.getAll());
-        toursListView.setItems(tours);
+        viewModel.initListView();
     }
 
     private void setListViewCellFormat()
@@ -93,33 +75,20 @@ public class ToursOverviewViewController implements IViewController {
         });
     }
 
-    private void setSelectedTourListener()
-    {
-
-        toursListView.getSelectionModel().selectedItemProperty().addListener(((observableValue, old, newVal) ->
-        {
-            if(newVal!=null) {
-                selectedTourId.set(newVal.getId());
-            }
-        }));
-    }
-
     public void addNewTour(ActionEvent actionEvent) {
-        tourCreateViewController=(TourCreateViewController) ViewManager.createView("createTour",new Stage(),"Create Tour");
+        viewModel.addNewTour();
     }
 
     public void removeTour(ActionEvent actionEvent) {
-        long id = selectedTourId.get();
-        selectedTourId.setValue(0);
-        tourDAO.delete(id);
+        viewModel.removeTour();
     }
 
     public void editTour(ActionEvent actionEvent) {
-        if (selectedTourId.get()!=0) {
-            tourEditViewController = (TourEditViewController) ViewManager.createView("editTour", new Stage(), "Edit Tour");
-            tourEditViewController.selectedTourId = selectedTourId.get();
-            tourEditViewController.initSelectedTour();
-        }
+       viewModel.editTour();
     }
 
+    @Override
+    public IViewModel getViewModel() {
+        return viewModel;
+    }
 }

@@ -3,6 +3,8 @@ package Views.TourLogs;
 import DataAccess.Repositories.DAOs.ITourLogDAO;
 import DataAccess.Repositories.DAOs.TourLogDAO;
 import Models.TourLog;
+import ViewModels.IViewModel;
+import ViewModels.TourLogs.TourLogDetailsViewModel;
 import Views.IViewController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -22,11 +24,11 @@ import static java.lang.Integer.parseInt;
 @NoArgsConstructor
 public class TourLogDetailsViewController implements IViewController {
 
-    ITourLogDAO tourLogDAO = TourLogDAO.getInstance();
+    TourLogDetailsViewModel viewModel;
 
     public long selectedTourLogId=0;
 
-    private TourLog selectedTourLog;
+    public TourLog selectedTourLog;
 
     @FXML
     public TextField report;
@@ -60,28 +62,21 @@ public class TourLogDetailsViewController implements IViewController {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        viewModel = new TourLogDetailsViewModel(this);
     }
 
     public void initSelectedTourLog()
     {
-        if (selectedTourLogId!=0) {
-            selectedTourLog = tourLogDAO.read(selectedTourLogId);
-            report.setText(selectedTourLog.getReport());
-            totalTime.setText(String.valueOf(selectedTourLog.getTotalTime()));
-            distance.setText(String.valueOf(selectedTourLog.getDistance()));
-            rating.setText(String.valueOf(selectedTourLog.getRating()));
-            averageSpeed.setText(String.valueOf(selectedTourLog.getAverageSpeed()));
-            typeOfTransport.setText(String.valueOf(selectedTourLog.getTypeOfTransport()));
-            difficulty.setText(String.valueOf(selectedTourLog.getDifficulty()));
-            recommendedPeopleCount.setText(String.valueOf(selectedTourLog.getRecommendedPeopleCount()));
-            toiletOnThePath.setSelected(selectedTourLog.getToiletOnThePath());
-        }
-
-
+        viewModel.initSelectedTourLog();
     }
 
     public void close(ActionEvent actionEvent) {
         Stage stage = (Stage) report.getScene().getWindow();
         stage.close();
+    }
+
+    @Override
+    public IViewModel getViewModel() {
+        return viewModel;
     }
 }
