@@ -74,6 +74,7 @@ public class TourDescriptionViewModel implements IViewModel {
                         e.printStackTrace();
                     }
                 }
+                else controller.selectedTourRouteInfoField.setImage(null);
             }
             else{
                 controller.selectedTourName.setValue("");

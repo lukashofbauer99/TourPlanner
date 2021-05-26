@@ -42,7 +42,7 @@ public class TestITextReportingService {
 
         //act
 
-        worked = reportingService.generateReport(tourList,testFolderPath+"Report");
+        worked = reportingService.generateMultiReport(tourList,testFolderPath+"Report");
 
         File f = new File(testFolderPath+"Report.pdf");
 
@@ -73,7 +73,7 @@ public class TestITextReportingService {
 
         //act
 
-        worked = reportingService.generateReport(tourList,testFolderPath+"Report");
+        worked = reportingService.generateMultiReport(tourList,testFolderPath+"Report");
 
         File f = new File(testFolderPath+"Report.pdf");
 

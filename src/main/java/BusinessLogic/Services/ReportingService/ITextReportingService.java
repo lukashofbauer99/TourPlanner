@@ -21,7 +21,7 @@ public class ITextReportingService implements IReportingService{
     private final Logger log = LogManager.getLogger("standardLogger");
 
     @Override
-    public boolean generateReport(List<Tour> tours, String path) {
+    public boolean generateMultiReport(List<Tour> tours, String path) {
 
         AtomicBoolean success = new AtomicBoolean(true);
 
@@ -92,6 +92,87 @@ public class ITextReportingService implements IReportingService{
             statList.setIndentationLeft(10);
             statList.add("Tours:");
             statList.add("  Total Distance: "+totalTourDistance+"km");
+            statList.add("Logs:");
+            statList.add("  Total Distance: "+totalTourLogDistance+"km");
+            statList.add("  Total Time: "+totalTourLogTime+"h");
+            document.add(statList);
+
+            document.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.fatal(e.getMessage());
+            success.set(false);
+        }
+        return success.get();
+    }
+
+    @Override
+    public boolean generateReport(Tour tour, String path) {
+
+        AtomicBoolean success = new AtomicBoolean(true);
+
+        AtomicReference<Double> totalTourDistance= new AtomicReference<>(0D);
+
+        AtomicReference<Double> totalTourLogDistance= new AtomicReference<>(0D);
+        AtomicReference<Double> totalTourLogTime= new AtomicReference<>(0D);
+
+        try {
+            // AGPL License! https://youtu.be/QHF3xcWnSD4
+            // https://kb.itextpdf.com/home/it7kb/examples/itext-7-jump-start-tutorial-chapter-1
+            Document document = new Document();
+            PdfWriter.getInstance(document, new FileOutputStream(path+".pdf"));
+            document.open();
+            document.add(new Paragraph("Tour:"));
+                try {
+                    totalTourDistance.updateAndGet(v -> v + tour.getTourDistance());
+
+                    Paragraph tourParagraph= new Paragraph(tour.getName()+": ");
+                    tourParagraph.setIndentationLeft(10);
+
+                    Paragraph tourFieldsParagraph= new Paragraph();
+                    tourFieldsParagraph.add("- Description: "+tour.getTourDescription());
+                    tourFieldsParagraph.add("\n");
+                    tourFieldsParagraph.add("- Distance: "+tour.getTourDistance()+"km");
+
+                    // Creating an ImageData object
+                    Paragraph picParagraph= new Paragraph();
+                    String imageFile =tour.getRouteInformation();
+                    if (imageFile!=null&& Files.exists(Path.of(imageFile))) {
+                        Image image = Image.getInstance(imageFile);
+                        image.scaleToFit(100f, 200f);
+                        picParagraph.add(image);
+                        tourFieldsParagraph.add(picParagraph);
+                    }
+
+
+                    Paragraph logParagraph = new Paragraph("- Logs: ");
+                    com.itextpdf.text.List logList= new com.itextpdf.text.List();
+                    logList.setIndentationLeft(10);
+                    tour.getLogs().forEach(y->
+                    {
+                        totalTourLogDistance.updateAndGet(v -> v + y.getDistance());
+                        totalTourLogTime.updateAndGet(v -> v + y.getTotalTime());
+                        logList.add(y.getReport() + " | " + y.getDistance() + "km");
+                    });
+
+                    logParagraph.add(logList);
+                    tourFieldsParagraph.add(logParagraph);
+                    tourFieldsParagraph.add("\n");
+
+                    tourParagraph.add(tourFieldsParagraph);
+                    document.add(tourParagraph);
+
+                } catch (DocumentException | IOException e) {
+                    e.printStackTrace();
+                    log.fatal(e.getMessage());
+                    success.set(false);
+                }
+
+            Paragraph statHeadingParagraph= new Paragraph("Statistics:");
+            document.add(statHeadingParagraph);
+
+            com.itextpdf.text.List statList= new com.itextpdf.text.List();
+            statList.setIndentationLeft(10);
             statList.add("Logs:");
             statList.add("  Total Distance: "+totalTourLogDistance+"km");
             statList.add("  Total Time: "+totalTourLogTime+"h");

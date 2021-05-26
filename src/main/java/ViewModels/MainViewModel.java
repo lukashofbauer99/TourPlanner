@@ -5,23 +5,11 @@ import BusinessLogic.Services.ReportingService.ReportingServiceProvider;
 import DataAccess.Repositories.DAOs.TourDAO;
 import Views.IViewController;
 import Views.MainViewController;
-import Views.TourLogs.TourLogsViewController;
-import Views.Tours.TourDescriptionViewController;
-import Views.Tours.ToursOverviewViewController;
-import javafx.beans.property.LongProperty;
-import javafx.beans.property.SimpleLongProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 
 import java.io.File;
-import java.net.URL;
-import java.util.ResourceBundle;
 
 
 public class MainViewModel implements IViewModel {
@@ -37,7 +25,7 @@ public class MainViewModel implements IViewModel {
         this.controller = controller;
     }
 
-    public void generateReport() {
+    public void generateMulitReport() {
         //Creating a File chooser
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save");
@@ -46,7 +34,24 @@ public class MainViewModel implements IViewModel {
         File file = fileChooser.showSaveDialog(controller.searchInput.getScene().getWindow());
 
         if(file!=null) {
-            if (!reportingServiceProvider.generateReport(tourDAO.getAll(), file.getPath())) {
+            if (!reportingServiceProvider.generateMultiReport(tourDAO.getAll(), file.getPath())) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Error creating Report", ButtonType.OK);
+                alert.showAndWait();
+            }
+        }
+
+    }
+
+    public void generateReport() {
+        //Creating a File chooser
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save");
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PDF", "*.pdf*"));
+        //Adding action on the menu item
+        File file = fileChooser.showSaveDialog(controller.searchInput.getScene().getWindow());
+
+        if(file!=null&&controller.selectedTourId!=null) {
+            if (!reportingServiceProvider.generateReport(tourDAO.read(controller.selectedTourId.get()), file.getPath())) {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Error creating Report", ButtonType.OK);
                 alert.showAndWait();
             }

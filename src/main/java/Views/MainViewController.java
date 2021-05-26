@@ -63,8 +63,11 @@ public class MainViewController implements IViewController {
 
     }
 
+    public void generateMulitReport(ActionEvent actionEvent) {
+       viewModel.generateMulitReport();
+    }
     public void generateReport(ActionEvent actionEvent) {
-       viewModel.generateReport();
+        viewModel.generateReport();
     }
 
     public void exportData(ActionEvent actionEvent) {

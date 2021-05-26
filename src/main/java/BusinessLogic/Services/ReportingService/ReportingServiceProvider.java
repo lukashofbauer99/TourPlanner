@@ -36,7 +36,11 @@ public class ReportingServiceProvider {
         return instance;
     }
 
-    public boolean generateReport(List<Tour> tours, String path) {
-        return reportingService.generateReport(tours,path);
+    public boolean generateMultiReport(List<Tour> tours, String path) {
+        return reportingService.generateMultiReport(tours,path);
+    }
+
+    public boolean generateReport(Tour tour, String path) {
+        return reportingService.generateReport(tour,path);
     }
 }

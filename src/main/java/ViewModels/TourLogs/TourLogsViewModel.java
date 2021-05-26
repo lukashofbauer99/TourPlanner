@@ -28,6 +28,7 @@ import lombok.NoArgsConstructor;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 
 @NoArgsConstructor
@@ -46,7 +47,10 @@ public class TourLogsViewModel implements IViewModel {
     {
         if (controller.selectedTourId!=null&&controller.selectedTourId.get()!=0) {
             controller.selectedTour = tourDAO.read(controller.selectedTourId.get());
-            controller.logs.setAll(controller.selectedTour.getLogs());
+            if(controller.searchString!=null&&controller.searchString.get()!=null)
+                controller.logs.setAll(controller.selectedTour.getLogs().stream().filter(x->x.getReport().contains(controller.searchString.get())).collect(Collectors.toList()));
+            else
+                controller.logs.setAll(controller.selectedTour.getLogs());
             controller.logsListView.setItems(controller.logs);
             controller.selectedLogId = null;
         }
@@ -57,8 +61,8 @@ public class TourLogsViewModel implements IViewModel {
     public void register()
     {
         tourDAO.registerForNotification(this::loadLogs);
-
         tourLogDAO.registerForNotification(this::loadLogs);
+        controller.searchString.addListener((x->loadLogs()));
     }
 
     public void setSelectedLogListener()
