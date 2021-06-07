@@ -131,12 +131,12 @@ public class PostgresTourRepo implements ITourRepo {
 
 
                 tour.setLogs(findTourLogToTourId(resultSet.getLong(1)));
-
+                return tour;
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        return tour;
+        return null;
     }
 
     @Override
